@@ -763,6 +763,11 @@
 
   <script>
   // المتغيرات العامة
+  const GITHUB_TOKEN = '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'; // استبدلها بالتوكن الخاص بك
+  const GIST_IDS = {
+    'mohammed': 'eea21e27ea3a508754e58ef0623b9c4b', // استبدلها بمعرّف Gist الخاص بمحمد
+    'saad': '0fe4b639772ce5d6d9792e41609657e6' // استبدلها بمعرّف Gist الخاص بسعد
+  };
   const numberOfIslands = 30;
   // عدد القلاع لكل جزيرة (21 للجزيرة الأولى، 20 للباقي، 23 للجزيرة 30)
   function getCastlesCount(islandId) {
@@ -882,7 +887,7 @@
     }
   }
   
-  // وظيفة لحفظ البيانات على الخادم (GitHub)
+  // وظيفة لحفظ البيانات على GitHub Gist
   async function saveGameData() {
     // إظهار مؤشر الحفظ
     saveIndicator.style.display = 'flex';
@@ -890,6 +895,7 @@
     saveIcon.className = 'save-icon';
     
     try {
+      // تجميع البيانات
       const gameData = {
         islandsData: islandsData,
         islandAverageRatings: islandAverageRatings,
@@ -903,17 +909,36 @@
       // حفظ البيانات محليًا كنسخة احتياطية
       localStorage.setItem(`islandsCastlesGame_${currentUser}`, JSON.stringify(gameData));
       
-      // هنا ستضيف كود لحفظ البيانات على GitHub
-      // يمكنك استخدام GitHub API أو خدمة مثل Firebase لتخزين البيانات
+      // الحصول على معرّف Gist الصحيح للمستخدم الحالي
+      const gistId = GIST_IDS[currentUser];
+      if (!gistId) {
+        throw new Error('معرّف Gist غير موجود للمستخدم الحالي');
+      }
       
-      // محاكاة تأخير شبكة لإظهار جاري الحفظ (يمكن إزالتها في الإصدار النهائي)
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // تحديث Gist
+      const response = await fetch(`https://api.github.com/gists/${gistId}`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `token ${GITHUB_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          files: {
+            [`${currentUser}-data.json`]: {
+              content: JSON.stringify(gameData, null, 2)
+            }
+          }
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`فشل الحفظ: ${response.status} ${response.statusText}`);
+      }
       
       // تحديث مؤشر الحفظ بعد النجاح
       saveMessage.textContent = 'تم الحفظ بنجاح!';
       saveIcon.className = 'save-icon save-success';
       
-      // إخفاء مؤشر الحفظ بعد ثواني
       setTimeout(() => {
         saveIndicator.style.display = 'none';
       }, 2000);
@@ -923,10 +948,9 @@
       console.error('خطأ في حفظ البيانات:', error);
       
       // تحديث مؤشر الحفظ بعد الفشل
-      saveMessage.textContent = 'فشل الحفظ!';
+      saveMessage.textContent = 'فشل الحفظ! استخدام النسخة المحلية';
       saveIcon.className = 'save-icon save-error';
       
-      // إخفاء مؤشر الحفظ بعد ثواني
       setTimeout(() => {
         saveIndicator.style.display = 'none';
       }, 3000);
@@ -935,44 +959,93 @@
     }
   }
   
-  // وظيفة لجلب البيانات من الخادم (GitHub)
+  // وظيفة لتحميل البيانات من GitHub Gist
   async function loadGameData() {
     try {
       // محاولة الحصول على البيانات من التخزين المحلي أولاً
       const savedData = localStorage.getItem(`islandsCastlesGame_${currentUser}`);
+      let localData = null;
       
       if (savedData) {
-        const gameData = JSON.parse(savedData);
-        islandsData = gameData.islandsData;
-        islandAverageRatings = gameData.islandAverageRatings;
+        localData = JSON.parse(savedData);
+        console.log(`تم تحميل بيانات المستخدم ${currentUser} من التخزين المحلي`);
+      }
+      
+      // محاولة الحصول على البيانات من GitHub Gist
+      try {
+        // الحصول على معرّف Gist للمستخدم الحالي
+        const gistId = GIST_IDS[currentUser];
+        if (!gistId) {
+          throw new Error('معرّف Gist غير موجود للمستخدم الحالي');
+        }
         
-        // استعادة إعدادات التنبيهات إذا وجدت
-        if (gameData.settings) {
-          yellowAlertMinutes = gameData.settings.yellowAlertMinutes || 5;
-          redAlertMinutes = gameData.settings.redAlertMinutes || 10;
+        const response = await fetch(`https://api.github.com/gists/${gistId}`, {
+          headers: {
+            'Authorization': `token ${GITHUB_TOKEN}`
+          }
+        });
+        
+        if (response.ok) {
+          const gistData = await response.json();
+          const fileContent = gistData.files[`${currentUser}-data.json`].content;
+          const onlineData = JSON.parse(fileContent);
+          
+          // التحقق مما إذا كانت البيانات عبر الإنترنت أحدث من البيانات المحلية
+          if (!localData || (onlineData.lastUpdated && 
+              new Date(onlineData.lastUpdated) > new Date(localData.lastUpdated))) {
+            console.log(`تم تحميل بيانات المستخدم ${currentUser} من GitHub Gist (أحدث)`);
+            
+            islandsData = onlineData.islandsData;
+            islandAverageRatings = onlineData.islandAverageRatings;
+            
+            // استعادة إعدادات التنبيهات
+            if (onlineData.settings) {
+              yellowAlertMinutes = onlineData.settings.yellowAlertMinutes || 5;
+              redAlertMinutes = onlineData.settings.redAlertMinutes || 10;
+              
+              // تحديث حقول الإعدادات في النافذة
+              yellowAlertMinutesInput.value = yellowAlertMinutes;
+              redAlertMinutesInput.value = redAlertMinutes;
+            }
+            
+            // تحديث التخزين المحلي بأحدث البيانات
+            localStorage.setItem(`islandsCastlesGame_${currentUser}`, JSON.stringify(onlineData));
+            
+            return true;
+          } else {
+            console.log(`استخدام البيانات المحلية لأنها أحدث أو مطابقة للبيانات عبر الإنترنت`);
+          }
+        }
+      } catch (error) {
+        console.warn(`لا يمكن الوصول إلى بيانات GitHub Gist: ${error.message}`);
+      }
+      
+      // إذا وصلنا إلى هنا، فإما أن البيانات المحلية أحدث أو أن الاتصال بـ GitHub قد فشل
+      if (localData) {
+        islandsData = localData.islandsData;
+        islandAverageRatings = localData.islandAverageRatings;
+        
+        // استعادة إعدادات التنبيهات
+        if (localData.settings) {
+          yellowAlertMinutes = localData.settings.yellowAlertMinutes || 5;
+          redAlertMinutes = localData.settings.redAlertMinutes || 10;
           
           // تحديث حقول الإعدادات في النافذة
           yellowAlertMinutesInput.value = yellowAlertMinutes;
           redAlertMinutesInput.value = redAlertMinutes;
         }
         
-        console.log(`تم تحميل بيانات المستخدم ${currentUser} من التخزين المحلي`);
-        
-        // هنا يمكنك محاولة جلب البيانات المحدثة من GitHub إذا كنت متصلاً بالإنترنت
-        
         return true;
       }
       
-      // إذا لم توجد بيانات محلية، حاول الحصول عليها من GitHub
-      // هنا يمكنك إضافة كود لجلب البيانات من GitHub
-      
+      // لا توجد بيانات متاحة
       return false;
     } catch (error) {
       console.error(`خطأ في تحميل بيانات ${currentUser}:`, error);
       return false;
     }
   }
-  
+    
   // تهيئة بيانات اللعبة
   function initializeGameData() {
     // محاولة تحميل البيانات المحفوظة
@@ -1670,16 +1743,16 @@
   // تبديل المستخدم
   function switchUser() {
     // حفظ البيانات الحالية
-    saveGameData();
-    
-    // تبديل المستخدم
-    currentUser = currentUser === 'mohammed' ? 'saad' : 'mohammed';
-    
-    // تحديث localStorage
-    localStorage.setItem('selectedUser', currentUser);
-    
-    // إعادة تحميل الصفحة
-    window.location.reload();
+    saveGameData().then(() => {
+      // تبديل المستخدم
+      currentUser = currentUser === 'mohammed' ? 'saad' : 'mohammed';
+      
+      // تحديث localStorage
+      localStorage.setItem('selectedUser', currentUser);
+      
+      // إعادة تحميل الصفحة
+      window.location.reload();
+    });
   }
   
   // تحسين عرض القلاع
