@@ -689,6 +689,18 @@
 </head>
 <body>
   <div class="game-container">
+    <!-- زر التحديث - بدلاً من زر العودة للصفحة الرئيسية -->
+    <button class="refresh-button" id="refreshButton">
+      تحديث
+      <span class="refresh-icon">↻</span>
+    </button>
+    
+    <!-- زر تبديل المستخدم للصفحة الرئيسية -->
+    <button class="switch-user-button-main" id="switchUserButtonMain">
+      تبديل المستخدم
+      <span class="switch-user-icon">👥</span>
+    </button>
+    
     <div class="title">لعبة الجزر والقلاع</div>
     <div class="user-info">
       المستخدم: <span class="user-name" id="current-user">جارٍ التحميل...</span>
@@ -2240,4 +2252,53 @@
       });
     });
   }
+  // دالة التحديث (تقوم بإعادة تحميل البيانات وتحديث عرض الجزر)
+  function refreshIslands() {
+    // عرض مؤشر التحميل
+    saveIndicator.style.display = 'flex';
+    saveMessage.textContent = 'جاري التحديث...';
+    saveIcon.className = 'save-icon';
+    
+    // محاولة إعادة تحميل البيانات من السيرفر
+    loadGameData().then(() => {
+      // تحديث معلومات الجزر في الشاشة الرئيسية
+      updateIslandInfo();
+      
+      // تحديث إحصائيات التقييم العامة
+      updateGlobalStats();
+      
+      // إظهار رسالة النجاح
+      saveMessage.textContent = 'تم التحديث بنجاح!';
+      saveIcon.className = 'save-icon save-success';
+      
+      setTimeout(() => {
+        saveIndicator.style.display = 'none';
+      }, 2000);
+    }).catch(err => {
+      console.error('خطأ أثناء التحديث:', err);
+      
+      // إظهار رسالة الخطأ
+      saveMessage.textContent = 'فشل التحديث! جاري استخدام البيانات المحلية';
+      saveIcon.className = 'save-icon save-error';
+      
+      setTimeout(() => {
+        saveIndicator.style.display = 'none';
+      }, 3000);
+    });
+  }
+  
+  // إضافة مستمعي الأحداث للأزرار الجديدة عند تحميل الصفحة
+  window.addEventListener('load', function() {
+    // زر التحديث في الصفحة الرئيسية
+    const refreshButton = document.getElementById('refreshButton');
+    if (refreshButton) {
+      refreshButton.addEventListener('click', refreshIslands);
+    }
+    
+    // زر تبديل المستخدم في الصفحة الرئيسية
+    const switchUserButtonMain = document.getElementById('switchUserButtonMain');
+    if (switchUserButtonMain) {
+      switchUserButtonMain.addEventListener('click', switchUser);
+    }
+  });
 </script>
