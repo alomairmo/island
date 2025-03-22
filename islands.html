@@ -904,6 +904,18 @@
   
   // وظيفة لحفظ البيانات على Firebase
   async function saveGameData() {
+    // في وظيفة saveGameData، أضف هذه الأسطر في بداية الوظيفة
+    console.log("بدء حفظ البيانات...");
+    console.log("المستخدم الحالي:", currentUser);
+    
+    // بعد محاولة الحفظ إلى Firebase، أضف
+    console.log("تم إرسال البيانات إلى Firebase");
+    
+    // في حالة الخطأ، أضف
+    console.error("تفاصيل الخطأ:", error);
+    
+    // في وظيفة switchUser، أضف
+    console.log("محاولة تبديل المستخدم من", currentUser);
     // إظهار مؤشر الحفظ
     saveIndicator.style.display = 'flex';
     saveMessage.textContent = 'جاري الحفظ...';
