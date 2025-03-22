@@ -4,6 +4,29 @@
   <meta charset="UTF-8">
   <title>لعبة الجزر والقلاع</title>
   <style>
+    /* أنماط زر العودة للصفحة الرئيسية */
+    .home-button-main {
+      position: fixed;
+      top: 20px;
+      left: 200px; /* موقع مناسب بجانب زر تبديل المستخدم */
+      padding: 10px 20px;
+      background-color: #3F51B5;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      z-index: 101;
+      display: flex;
+      align-items: center;
+    }
+    .home-button-main:hover {
+      background-color: #303F9F;
+    }
+    .home-icon-main {
+      margin-right: 5px;
+      font-size: 18px;
+    }
     /* زر العودة للصفحة الرئيسية */
     .home-button {
       position: fixed;
@@ -60,6 +83,11 @@
       box-sizing: border-box;
       height: calc(100vh - 60px);
       overflow-y: auto;
+      <!-- زر العودة للصفحة الرئيسية -->
+      <button class="home-button-main" id="homeButtonMain">
+        العودة للصفحة الرئيسية
+        <span class="home-icon-main">🏠</span>
+      </button>
     }
 
     .title {
@@ -2303,6 +2331,35 @@
         // تنفيذ وظيفة التحديث
         refreshIslands();
       }, 1000);
+
+      // زر العودة للصفحة الرئيسية
+      const homeButtonMain = document.getElementById('homeButtonMain');
+      if (homeButtonMain) {
+        homeButtonMain.addEventListener('click', function() {
+          // إظهار مؤشر التحميل
+          saveIndicator.style.display = 'flex';
+          saveMessage.textContent = 'جاري حفظ البيانات قبل العودة...';
+          saveIcon.className = 'save-icon';
+          
+          // حفظ البيانات قبل العودة
+          saveGameData().then(() => {
+            console.log('تم حفظ البيانات بنجاح قبل العودة للصفحة الرئيسية');
+            // الانتقال إلى الصفحة الرئيسية بعد تأخير قصير
+            setTimeout(() => {
+              window.location.href = 'index.html';
+            }, 1000);
+          }).catch(err => {
+            console.error('فشل في حفظ البيانات:', err);
+            saveMessage.textContent = 'فشل الحفظ. جاري العودة...';
+            saveIcon.className = 'save-icon save-error';
+            
+            // العودة حتى في حالة فشل الحفظ بعد تأخير قصير
+            setTimeout(() => {
+              window.location.href = 'index.html';
+            }, 1500);
+          });
+        });
+      }
     }
     
     // زر تبديل المستخدم في الصفحة الرئيسية
