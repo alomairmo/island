@@ -1339,68 +1339,74 @@
   function updateIslandStats() {
     if (currentIsland === null) return;
     
-    // التأكد من الحصول على العدد الصحيح للقلاع
-    const castlesCount = getCastlesCount(currentIsland);
-    
-    // إعادة حساب عدد القلاع المقيمة والمتوسط للتأكد من الدقة
-    let evaluated = 0;
-    let totalRatings = 0;
-    
-    // فحص البيانات والتأكد من وجود العدد الصحيح من القلاع
-    if (!islandsData[currentIsland] || islandsData[currentIsland].length !== castlesCount) {
-      // إذا كانت البيانات غير موجودة أو غير صحيحة، قم بإنشائها
-      if (!islandsData[currentIsland]) {
-        islandsData[currentIsland] = [];
+    try {
+      // التأكد من الحصول على العدد الصحيح للقلاع
+      const castlesCount = getCastlesCount(currentIsland);
+      
+      // إعادة حساب عدد القلاع المقيمة والمتوسط للتأكد من الدقة
+      let evaluated = 0;
+      let totalRatings = 0;
+      
+      // فحص البيانات والتأكد من وجود العدد الصحيح من القلاع
+      if (!islandsData[currentIsland] || islandsData[currentIsland].length !== castlesCount) {
+        // إذا كانت البيانات غير موجودة أو غير صحيحة، قم بإنشائها
+        if (!islandsData[currentIsland]) {
+          islandsData[currentIsland] = [];
+        }
+        
+        // ضبط العدد الصحيح من القلاع
+        while (islandsData[currentIsland].length < castlesCount) {
+          islandsData[currentIsland].push({
+            rating: 0,
+            evaluated: false,
+            lastRated: null
+          });
+        }
+        
+        while (islandsData[currentIsland].length > castlesCount) {
+          islandsData[currentIsland].pop();
+        }
       }
       
-      // ضبط العدد الصحيح من القلاع
-      while (islandsData[currentIsland].length < castlesCount) {
-        islandsData[currentIsland].push({
-          rating: 0,
-          evaluated: false,
-          lastRated: null
-        });
+      // حساب عدد القلاع المقيمة والمتوسط
+      for (let i = 0; i < castlesCount; i++) {
+        if (islandsData[currentIsland][i].evaluated) {
+          evaluated++;
+          totalRatings += islandsData[currentIsland][i].rating;
+        }
       }
       
-      while (islandsData[currentIsland].length > castlesCount) {
-        islandsData[currentIsland].pop();
+      // حساب المتوسط
+      const average = evaluated > 0 ? totalRatings / evaluated : 0;
+      
+      // تحديث بيانات متوسط الجزيرة
+      if (!islandAverageRatings[currentIsland]) {
+        islandAverageRatings[currentIsland] = { average: 0, evaluated: 0 };
       }
+      
+      islandAverageRatings[currentIsland].average = average;
+      islandAverageRatings[currentIsland].evaluated = evaluated;
+      
+      // تحديث العناصر في واجهة المستخدم
+      islandCastlesElement.textContent = castlesCount;
+      islandRatedCastlesElement.textContent = evaluated;
+      islandRatingAverageElement.textContent = average.toFixed(1) + '%';
+      islandRatingAverageElement.style.color = getRatingColor(average);
+      
+      // تحديث أعداد التنبيهات
+      const alertCounts = countIslandAlertCastles(currentIsland);
+      islandYellowAlertCountElement.textContent = alertCounts.yellowCount;
+      islandRedAlertCountElement.textContent = alertCounts.redCount;
+      
+      console.log(`تم تحديث إحصائيات الجزيرة ${currentIsland + 1}: العدد الكلي: ${castlesCount}، المقيمة: ${evaluated}، المتوسط: ${average.toFixed(1)}%`);
+      
+      // حفظ البيانات - استخدم وعد للتعامل مع الخطأ
+      saveGameData().catch(err => {
+        console.error("فشل الحفظ أثناء تحديث إحصائيات الجزيرة:", err);
+      });
+    } catch (err) {
+      console.error("خطأ في تحديث إحصائيات الجزيرة:", err);
     }
-    
-    // حساب عدد القلاع المقيمة والمتوسط
-    for (let i = 0; i < castlesCount; i++) {
-      if (islandsData[currentIsland][i].evaluated) {
-        evaluated++;
-        totalRatings += islandsData[currentIsland][i].rating;
-      }
-    }
-    
-    // حساب المتوسط
-    const average = evaluated > 0 ? totalRatings / evaluated : 0;
-    
-    // تحديث بيانات متوسط الجزيرة
-    if (!islandAverageRatings[currentIsland]) {
-      islandAverageRatings[currentIsland] = { average: 0, evaluated: 0 };
-    }
-    
-    islandAverageRatings[currentIsland].average = average;
-    islandAverageRatings[currentIsland].evaluated = evaluated;
-    
-    // تحديث العناصر في واجهة المستخدم
-    islandCastlesElement.textContent = castlesCount;
-    islandRatedCastlesElement.textContent = evaluated;
-    islandRatingAverageElement.textContent = average.toFixed(1) + '%';
-    islandRatingAverageElement.style.color = getRatingColor(average);
-    
-    // تحديث أعداد التنبيهات
-    const alertCounts = countIslandAlertCastles(currentIsland);
-    islandYellowAlertCountElement.textContent = alertCounts.yellowCount;
-    islandRedAlertCountElement.textContent = alertCounts.redCount;
-    
-    console.log(`تم تحديث إحصائيات الجزيرة ${currentIsland + 1}: العدد الكلي: ${castlesCount}، المقيمة: ${evaluated}، المتوسط: ${average.toFixed(1)}%`);
-    
-    // حفظ البيانات
-    saveGameData();
   }
   
   // تحويل قيمة التقييم إلى لون بتدرج من الأحمر إلى الأخضر
