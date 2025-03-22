@@ -1804,7 +1804,7 @@
     updateGlobalStats();
   }
   
-  // تعديل دالة تبديل المستخدم لتحديث البيانات تلقائياً
+  // تبديل المستخدم (نسخة محسنة)
   async function switchUser() {
     try {
       console.log(`بدء تبديل المستخدم من ${currentUser}`);
@@ -1828,7 +1828,7 @@
       localStorage.setItem(`islandsCastlesGame_${currentUser}`, JSON.stringify(gameData));
       console.log("تم حفظ بيانات المستخدم الحالي محليًا");
       
-      // حفظ في Firebase بشكل غير متزامن
+      // محاولة الحفظ في Firebase بشكل غير متزامن
       firebase.database().ref(`users/${currentUser}`).set(gameData)
         .then(() => console.log("تم حفظ البيانات في Firebase بنجاح"))
         .catch(err => console.error("فشل الحفظ في Firebase:", err));
@@ -1841,15 +1841,18 @@
       currentUser = newUser;
       localStorage.setItem('selectedUser', newUser);
       
-      // 3. تحميل بيانات المستخدم الجديد
+      // 3. تنظيف العناصر المرئية قبل تحميل البيانات الجديدة
+      cleanupUIElements();
+      
+      // 4. تحميل بيانات المستخدم الجديد
       await loadGameData();
       
-      // 4. تهيئة وعرض البيانات
+      // 5. تهيئة وعرض البيانات
       initializeGameData();
       updateIslandInfo();
       updateGlobalStats();
       
-      // 5. تحديث اسم المستخدم في الواجهة
+      // 6. تحديث اسم المستخدم في الواجهة
       document.getElementById('current-user').textContent = currentUser === 'mohammed' ? 'محمد' : 'سعد';
       
       // إظهار رسالة النجاح
@@ -1875,34 +1878,41 @@
       return false;
     }
   }
-
-    // دالة تهيئة التطبيق بشكل كامل
-  async function initializeApp() {
-    try {
-      console.log("بدء تهيئة التطبيق...");
-      
-      // 1. تحميل البيانات من السيرفر أو التخزين المحلي
-      await loadGameData();
-      console.log("تم تحميل البيانات بنجاح");
-      
-      // 2. تهيئة بيانات اللعبة (التأكد من اكتمال البيانات)
-      initializeGameData();
-      console.log("تم تهيئة بيانات اللعبة");
-      
-      // 3. تحديث معلومات الجزر
-      updateIslandInfo();
-      console.log("تم تحديث معلومات الجزر");
-      
-      // 4. تحديث إحصائيات التقييم العامة وتنبيهات الجزر
-      updateGlobalStats();
-      console.log("تم تحديث الإحصائيات العامة");
-      
-      // 5. تحديث اسم المستخدم في الواجهة
-      document.getElementById('current-user').textContent = currentUser === 'mohammed' ? 'محمد' : 'سعد';
-      console.log("تم تحديث اسم المستخدم");
-    } catch (error) {
-      console.error("خطأ أثناء تهيئة التطبيق:", error);
+  
+  // دالة تنظيف عناصر واجهة المستخدم
+  function cleanupUIElements() {
+    console.log("تنظيف عناصر واجهة المستخدم...");
+    
+    // 1. إزالة جميع علامات التنبيه من الجزر
+    document.querySelectorAll('.island .alert-icon').forEach(alert => {
+      alert.remove();
+    });
+    
+    // 2. إعادة ضبط ألوان إطارات الجزر
+    document.querySelectorAll('.island-border').forEach(border => {
+      border.style.borderColor = 'transparent';
+    });
+    
+    // 3. إعادة ضبط معلومات تقييم الجزر
+    for (let i = 0; i < numberOfIslands; i++) {
+      const infoElement = document.getElementById(`island-info-${i}`);
+      if (infoElement) {
+        const totalCastles = getCastlesCount(i);
+        infoElement.textContent = `0/${totalCastles} (0.0%)`;
+      }
     }
+    
+    // 4. إعادة ضبط الإحصائيات العامة
+    if (totalRatedCastlesElement) totalRatedCastlesElement.textContent = "0";
+    if (globalRatingAverageElement) globalRatingAverageElement.textContent = "0%";
+    if (yellowAlertCountElement) yellowAlertCountElement.textContent = "0";
+    if (redAlertCountElement) redAlertCountElement.textContent = "0";
+    
+    // 5. إعادة ضبط المصفوفات العالمية للبيانات
+    islandsData = [];
+    islandAverageRatings = [];
+    
+    console.log("تم تنظيف عناصر واجهة المستخدم بنجاح");
   }
     
   // تحسين عرض القلاع
