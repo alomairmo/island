@@ -2283,8 +2283,8 @@
   });
   
   // استدعاء دالة التهيئة عند تحميل الصفحة
-  document.addEventListener('DOMContentLoaded', function() {
-    // استدعاء الدالة الرئيسية للتهيئة بطريقة مختلفة
+  window.addEventListener('load', function() {
+    // استدعاء الدالة الرئيسية للتهيئة
     initializeApp();
     
     // زر التحديث في الصفحة الرئيسية
@@ -2298,6 +2298,13 @@
     if (switchUserButtonMain) {
       switchUserButtonMain.addEventListener('click', switchUser);
     }
+    
+    // يتم عرض التفاصيل الإضافية في العرض المفصل فقط
+    document.addEventListener('click', function() {
+      if (currentIsland !== null) {
+        setTimeout(enhanceCastleDisplay, 100);
+      }
+    });
   });
   // إضافة سلوك زر العودة للصفحة الرئيسية
   const homeButton = document.getElementById('homeButton');
@@ -2362,15 +2369,8 @@
     });
   }
   
+  // إضافة مستمعي الأحداث للأزرار الجديدة عند تحميل الصفحة
   window.addEventListener('load', function() {
-    // استدعاء دالة التهيئة
-    initializeApp();
-    
-    // تفعيل زر التحديث بشكل تلقائي عند تحميل الصفحة
-    setTimeout(() => {
-      refreshIslands();
-    }, 500); // تأخير بسيط لضمان اكتمال تحميل كل شيء
-    
     // زر التحديث في الصفحة الرئيسية
     const refreshButton = document.getElementById('refreshButton');
     if (refreshButton) {
@@ -2382,12 +2382,5 @@
     if (switchUserButtonMain) {
       switchUserButtonMain.addEventListener('click', switchUser);
     }
-    
-    // يتم عرض التفاصيل الإضافية في العرض المفصل فقط
-    document.addEventListener('click', function() {
-      if (currentIsland !== null) {
-        setTimeout(enhanceCastleDisplay, 100);
-      }
-    });
   });
 </script>
