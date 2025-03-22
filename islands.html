@@ -1844,6 +1844,35 @@
       window.location.reload();
     }
   }
+
+    // دالة تهيئة التطبيق بشكل كامل
+  async function initializeApp() {
+    try {
+      console.log("بدء تهيئة التطبيق...");
+      
+      // 1. تحميل البيانات من السيرفر أو التخزين المحلي
+      await loadGameData();
+      console.log("تم تحميل البيانات بنجاح");
+      
+      // 2. تهيئة بيانات اللعبة (التأكد من اكتمال البيانات)
+      initializeGameData();
+      console.log("تم تهيئة بيانات اللعبة");
+      
+      // 3. تحديث معلومات الجزر
+      updateIslandInfo();
+      console.log("تم تحديث معلومات الجزر");
+      
+      // 4. تحديث إحصائيات التقييم العامة وتنبيهات الجزر
+      updateGlobalStats();
+      console.log("تم تحديث الإحصائيات العامة");
+      
+      // 5. تحديث اسم المستخدم في الواجهة
+      document.getElementById('current-user').textContent = currentUser === 'mohammed' ? 'محمد' : 'سعد';
+      console.log("تم تحديث اسم المستخدم");
+    } catch (error) {
+      console.error("خطأ أثناء تهيئة التطبيق:", error);
+    }
+  }
     
   // تحسين عرض القلاع
   function enhanceCastleDisplay() {
@@ -2212,10 +2241,22 @@
     }
   });
   
-  // تنفيذ تحسينات الرسوميات عند تحميل الصفحة وعند عرض جزيرة تفصيلية
+  // استدعاء دالة التهيئة عند تحميل الصفحة
   window.addEventListener('load', function() {
-    // تحديث إحصائيات التقييم العامة عند بدء التشغيل
-    updateGlobalStats();
+    // استدعاء الدالة الرئيسية للتهيئة
+    initializeApp();
+    
+    // زر التحديث في الصفحة الرئيسية
+    const refreshButton = document.getElementById('refreshButton');
+    if (refreshButton) {
+      refreshButton.addEventListener('click', refreshIslands);
+    }
+    
+    // زر تبديل المستخدم في الصفحة الرئيسية
+    const switchUserButtonMain = document.getElementById('switchUserButtonMain');
+    if (switchUserButtonMain) {
+      switchUserButtonMain.addEventListener('click', switchUser);
+    }
     
     // يتم عرض التفاصيل الإضافية في العرض المفصل فقط
     document.addEventListener('click', function() {
