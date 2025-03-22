@@ -2284,13 +2284,25 @@
   
   // استدعاء دالة التهيئة عند تحميل الصفحة
   window.addEventListener('load', function() {
-    // استدعاء الدالة الرئيسية للتهيئة
+    // استدعاء دالة التهيئة
     initializeApp();
     
     // زر التحديث في الصفحة الرئيسية
     const refreshButton = document.getElementById('refreshButton');
     if (refreshButton) {
       refreshButton.addEventListener('click', refreshIslands);
+      
+      // محاكاة النقر على زر التحديث بعد فترة قصيرة
+      setTimeout(() => {
+        // تأثير مرئي للنقر
+        refreshButton.classList.add('clicked');
+        setTimeout(() => {
+          refreshButton.classList.remove('clicked');
+        }, 200);
+        
+        // تنفيذ وظيفة التحديث
+        refreshIslands();
+      }, 1000);
     }
     
     // زر تبديل المستخدم في الصفحة الرئيسية
