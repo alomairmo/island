@@ -1804,12 +1804,17 @@
     updateGlobalStats();
   }
   
-  // تبديل المستخدم (نسخة مبسطة)
-  function switchUser() {
-    console.log("بدء تبديل المستخدم من", currentUser);
-    
-    // حفظ البيانات محليًا أولاً
+  // تعديل دالة تبديل المستخدم لتحديث البيانات تلقائياً
+  async function switchUser() {
     try {
+      console.log(`بدء تبديل المستخدم من ${currentUser}`);
+      
+      // عرض مؤشر التحميل
+      saveIndicator.style.display = 'flex';
+      saveMessage.textContent = 'جاري تبديل المستخدم...';
+      saveIcon.className = 'save-icon';
+      
+      // 1. حفظ بيانات المستخدم الحالي
       const gameData = {
         islandsData: islandsData,
         islandAverageRatings: islandAverageRatings,
@@ -1823,25 +1828,51 @@
       localStorage.setItem(`islandsCastlesGame_${currentUser}`, JSON.stringify(gameData));
       console.log("تم حفظ بيانات المستخدم الحالي محليًا");
       
-      // تبديل المستخدم
-      const newUser = currentUser === 'mohammed' ? 'saad' : 'mohammed';
-      console.log("تبديل المستخدم إلى", newUser);
-      
-      // تحديث localStorage
-      localStorage.setItem('selectedUser', newUser);
-      
-      // محاولة الحفظ في Firebase بشكل غير متزامن
+      // حفظ في Firebase بشكل غير متزامن
       firebase.database().ref(`users/${currentUser}`).set(gameData)
         .then(() => console.log("تم حفظ البيانات في Firebase بنجاح"))
         .catch(err => console.error("فشل الحفظ في Firebase:", err));
       
-      // إعادة تحميل الصفحة
-      console.log("جاري إعادة تحميل الصفحة...");
-      window.location.reload();
+      // 2. تبديل المستخدم
+      const newUser = currentUser === 'mohammed' ? 'saad' : 'mohammed';
+      console.log(`تبديل المستخدم إلى ${newUser}`);
+      
+      // تحديث المستخدم الحالي
+      currentUser = newUser;
+      localStorage.setItem('selectedUser', newUser);
+      
+      // 3. تحميل بيانات المستخدم الجديد
+      await loadGameData();
+      
+      // 4. تهيئة وعرض البيانات
+      initializeGameData();
+      updateIslandInfo();
+      updateGlobalStats();
+      
+      // 5. تحديث اسم المستخدم في الواجهة
+      document.getElementById('current-user').textContent = currentUser === 'mohammed' ? 'محمد' : 'سعد';
+      
+      // إظهار رسالة النجاح
+      saveMessage.textContent = 'تم تبديل المستخدم بنجاح!';
+      saveIcon.className = 'save-icon save-success';
+      
+      setTimeout(() => {
+        saveIndicator.style.display = 'none';
+      }, 2000);
+      
+      return true;
     } catch (err) {
       console.error("خطأ في تبديل المستخدم:", err);
-      alert("حدث خطأ أثناء تبديل المستخدم. سيتم إعادة تحميل الصفحة.");
-      window.location.reload();
+      
+      // إظهار رسالة الخطأ
+      saveMessage.textContent = 'حدث خطأ أثناء تبديل المستخدم!';
+      saveIcon.className = 'save-icon save-error';
+      
+      setTimeout(() => {
+        saveIndicator.style.display = 'none';
+      }, 3000);
+      
+      return false;
     }
   }
 
