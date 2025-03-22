@@ -49,6 +49,10 @@
     }
     .game-container {
     <div class="game-container">
+      <button class="home-button" id="homeButton">
+        العودة للصفحة الرئيسية
+        <span class="home-icon">🏠</span>
+      </button>
       <div class="title">لعبة الجزر والقلاع</div>
       width: 100%;
       position: relative;
@@ -2364,14 +2368,7 @@
       }, 3000);
     });
   }
-
-    // إضافة سلوك زر العودة للصفحة الرئيسية
-  const homeButton = document.getElementById('homeButton');
-  if (homeButton) {
-    homeButton.addEventListener('click', function() {
-      window.location.href = 'index.html';
-    });
-  }
+  
   // إضافة مستمعي الأحداث للأزرار الجديدة عند تحميل الصفحة
   window.addEventListener('load', function() {
     // زر التحديث في الصفحة الرئيسية
