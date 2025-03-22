@@ -2281,17 +2281,6 @@
       alert('يجب أن تكون مدة المراجعة العاجلة أكبر من مدة المراجعة العادية وكلاهما أكبر من صفر');
     }
   });
-  
-  // استدعاء دالة التهيئة عند تحميل الصفحة
-  window.addEventListener('load', function() {
-    // استدعاء الدالة الرئيسية للتهيئة
-    initializeApp();
-    
-    // زر التحديث في الصفحة الرئيسية
-    const refreshButton = document.getElementById('refreshButton');
-    if (refreshButton) {
-      refreshButton.addEventListener('click', refreshIslands);
-    }
     
    // زر العودة للصفحة الرئيسية
     const switchUserButtonMain = document.getElementById('switchUserButtonMain');
@@ -2377,4 +2366,19 @@
       }, 3000);
     });
   }
+  
+  // إضافة مستمعي الأحداث للأزرار الجديدة عند تحميل الصفحة
+  window.addEventListener('load', function() {
+    // زر التحديث في الصفحة الرئيسية
+    const refreshButton = document.getElementById('refreshButton');
+    if (refreshButton) {
+      refreshButton.addEventListener('click', refreshIslands);
+    }
+    
+    // زر تبديل المستخدم في الصفحة الرئيسية
+    const switchUserButtonMain = document.getElementById('switchUserButtonMain');
+    if (switchUserButtonMain) {
+      switchUserButtonMain.addEventListener('click', switchUser);
+    }
+  });
 </script>
