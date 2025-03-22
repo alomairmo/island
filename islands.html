@@ -2283,8 +2283,8 @@
   });
   
   // استدعاء دالة التهيئة عند تحميل الصفحة
-  window.addEventListener('load', function() {
-    // استدعاء الدالة الرئيسية للتهيئة
+  document.addEventListener('DOMContentLoaded', function() {
+    // استدعاء الدالة الرئيسية للتهيئة بطريقة مختلفة
     initializeApp();
     
     // زر التحديث في الصفحة الرئيسية
@@ -2298,13 +2298,6 @@
     if (switchUserButtonMain) {
       switchUserButtonMain.addEventListener('click', switchUser);
     }
-    
-    // يتم عرض التفاصيل الإضافية في العرض المفصل فقط
-    document.addEventListener('click', function() {
-      if (currentIsland !== null) {
-        setTimeout(enhanceCastleDisplay, 100);
-      }
-    });
   });
   // إضافة سلوك زر العودة للصفحة الرئيسية
   const homeButton = document.getElementById('homeButton');
