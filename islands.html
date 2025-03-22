@@ -4,6 +4,29 @@
   <meta charset="UTF-8">
   <title>لعبة الجزر والقلاع</title>
   <style>
+    /* زر العودة للصفحة الرئيسية */
+    .home-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      background-color: #FF9800;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      z-index: 101;
+      display: flex;
+      align-items: center;
+    }
+    .home-button:hover {
+      background-color: #F57C00;
+    }
+    .home-icon {
+      margin-left: 8px;
+      font-size: 18px;
+    }
     .castle-number-display {
       font-size: 18px;
       font-weight: bold;
@@ -25,6 +48,12 @@
       height: 100vh;
     }
     .game-container {
+    <div class="game-container">
+      <button class="home-button" id="homeButton">
+        العودة للصفحة الرئيسية
+        <span class="home-icon">🏠</span>
+      </button>
+      <div class="title">لعبة الجزر والقلاع</div>
       width: 100%;
       position: relative;
       padding: 20px;
@@ -32,6 +61,7 @@
       height: calc(100vh - 60px);
       overflow-y: auto;
     }
+
     .title {
       width: 100%;
       text-align: center;
@@ -2182,4 +2212,32 @@
       }
     });
   });
+  // إضافة سلوك زر العودة للصفحة الرئيسية
+  const homeButton = document.getElementById('homeButton');
+  if (homeButton) {
+    homeButton.addEventListener('click', function() {
+      // إظهار مؤشر التحميل أو رسالة
+      saveIndicator.style.display = 'flex';
+      saveMessage.textContent = 'جاري حفظ البيانات قبل العودة...';
+      saveIcon.className = 'save-icon';
+      
+      // حفظ البيانات تلقائياً قبل العودة
+      saveGameData().then(() => {
+        console.log('تم حفظ البيانات بنجاح قبل العودة للصفحة الرئيسية');
+        // الانتقال إلى الصفحة الرئيسية بعد تأخير قصير
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1000); // تأخير 1 ثانية لإظهار رسالة النجاح
+      }).catch(err => {
+        console.error('فشل في حفظ البيانات:', err);
+        saveMessage.textContent = 'فشل الحفظ. جاري العودة...';
+        saveIcon.className = 'save-icon save-error';
+        
+        // العودة حتى في حالة فشل الحفظ بعد تأخير قصير
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1500);
+      });
+    });
+  }
 </script>
