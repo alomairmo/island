@@ -213,6 +213,9 @@
       100% { transform: translateX(0); }
     }
   </style>
+    <!-- مكتبات Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 </head>
 <body>
   <div class="title">لعبة الجزر والقلاع</div>
@@ -264,6 +267,23 @@
   </div>
 
   <script>
+    // تكوين Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDuGoFrbrN73z-JiiFsfTBydg28Lft4EUk",
+      authDomain: "island-74dec.firebaseapp.com",
+      projectId: "island-74dec",
+      storageBucket: "island-74dec.firebasestorage.app",
+      messagingSenderId: "220206860551",
+      appId: "1:220206860551:web:8bcd14754e0427fa89dda2",
+      measurementId: "G-QGYV54JB2J"
+    };
+    
+    // تهيئة Firebase
+    firebase.initializeApp(firebaseConfig);
+    
+    // مرجع قاعدة البيانات
+    const database = firebase.database();
+    
     const mohammedCard = document.getElementById('mohammed-card');
     const saadCard = document.getElementById('saad-card');
     const loader = document.getElementById('loader');
