@@ -902,20 +902,9 @@
     }
   }
   
-  // وظيفة لحفظ البيانات على Firebase
+  // وظيفة لحفظ البيانات على Firebase (نسخة مبسطة وآمنة)
   async function saveGameData() {
-    // في وظيفة saveGameData، أضف هذه الأسطر في بداية الوظيفة
-    console.log("بدء حفظ البيانات...");
-    console.log("المستخدم الحالي:", currentUser);
-    
-    // بعد محاولة الحفظ إلى Firebase، أضف
-    console.log("تم إرسال البيانات إلى Firebase");
-    
-    // في حالة الخطأ، أضف
-    console.error("تفاصيل الخطأ:", error);
-    
-    // في وظيفة switchUser، أضف
-    console.log("محاولة تبديل المستخدم من", currentUser);
+    console.log("محاولة حفظ البيانات...");
     // إظهار مؤشر الحفظ
     saveIndicator.style.display = 'flex';
     saveMessage.textContent = 'جاري الحفظ...';
@@ -933,11 +922,15 @@
         lastUpdated: new Date().toISOString()
       };
       
-      // حفظ البيانات محليًا كنسخة احتياطية
+      // حفظ البيانات محليًا أولاً
       localStorage.setItem(`islandsCastlesGame_${currentUser}`, JSON.stringify(gameData));
+      console.log("تم الحفظ محليًا");
       
-      // حفظ البيانات في Firebase
-      await database.ref(`users/${currentUser}`).set(gameData);
+      // محاولة حفظ البيانات في Firebase 
+      const dbRef = firebase.database().ref();
+      console.log("جاري الحفظ في Firebase...");
+      await dbRef.child(`users/${currentUser}`).set(gameData);
+      console.log("تم الحفظ في Firebase بنجاح");
       
       // تحديث مؤشر الحفظ بعد النجاح
       saveMessage.textContent = 'تم الحفظ بنجاح!';
@@ -948,11 +941,11 @@
       }, 2000);
       
       return true;
-    } catch (error) {
-      console.error('خطأ في حفظ البيانات:', error);
+    } catch (err) {
+      console.error('خطأ في حفظ البيانات:', err);
       
       // تحديث مؤشر الحفظ بعد الفشل
-      saveMessage.textContent = 'فشل الحفظ عبر الإنترنت! تم الحفظ محليًا';
+      saveMessage.textContent = 'فشل الحفظ عبر الإنترنت! تم الحفظ محليًا فقط';
       saveIcon.className = 'save-icon save-error';
       
       setTimeout(() => {
