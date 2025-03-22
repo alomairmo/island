@@ -2312,33 +2312,6 @@
       }
     });
   });
-  // إضافة سلوك زر العودة للصفحة الرئيسية
-  const homeButton = document.getElementById('homeButton');
-  if (homeButton) {
-    homeButton.addEventListener('click', function() {
-      // إظهار مؤشر التحميل أو رسالة
-      saveIndicator.style.display = 'flex';
-      saveMessage.textContent = 'جاري حفظ البيانات قبل العودة...';
-      saveIcon.className = 'save-icon';
-      
-      // حفظ البيانات تلقائياً قبل العودة
-      saveGameData().then(() => {
-        console.log('تم حفظ البيانات بنجاح قبل العودة للصفحة الرئيسية');
-        // الانتقال إلى الصفحة الرئيسية بعد تأخير قصير
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 1000); // تأخير 1 ثانية لإظهار رسالة النجاح
-      }).catch(err => {
-        console.error('فشل في حفظ البيانات:', err);
-        saveMessage.textContent = 'فشل الحفظ. جاري العودة...';
-        saveIcon.className = 'save-icon save-error';
-        
-        // العودة حتى في حالة فشل الحفظ بعد تأخير قصير
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 1500);
-      });
-    });
   }
   // دالة التحديث (تقوم بإعادة تحميل البيانات وتحديث عرض الجزر)
   function refreshIslands() {
