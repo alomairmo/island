@@ -697,7 +697,7 @@
     
     <!-- زر تبديل المستخدم للصفحة الرئيسية -->
     <button class="switch-user-button-main" id="switchUserButtonMain">
-      تبديل المستخدم
+      الصفحة الرئيسية
       <span class="switch-user-icon">👥</span>
     </button>
     
@@ -2293,10 +2293,19 @@
       refreshButton.addEventListener('click', refreshIslands);
     }
     
-    // زر تبديل المستخدم في الصفحة الرئيسية
+   // زر العودة للصفحة الرئيسية
     const switchUserButtonMain = document.getElementById('switchUserButtonMain');
     if (switchUserButtonMain) {
-      switchUserButtonMain.addEventListener('click', switchUser);
+      switchUserButtonMain.addEventListener('click', function() {
+        // حفظ البيانات قبل العودة
+        saveGameData().then(() => {
+          window.location.href = 'index.html';
+        }).catch(err => {
+          console.error('فشل في حفظ البيانات:', err);
+          // العودة حتى في حالة فشل الحفظ
+          window.location.href = 'index.html';
+        });
+      });
     }
     
     // يتم عرض التفاصيل الإضافية في العرض المفصل فقط
