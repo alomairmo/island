@@ -697,7 +697,7 @@
     
     <!-- زر تبديل المستخدم للصفحة الرئيسية -->
     <button class="switch-user-button-main" id="switchUserButtonMain">
-      الصفحة الرئيسية
+      تبديل المستخدم
       <span class="switch-user-icon">👥</span>
     </button>
     
@@ -2281,20 +2281,22 @@
       alert('يجب أن تكون مدة المراجعة العاجلة أكبر من مدة المراجعة العادية وكلاهما أكبر من صفر');
     }
   });
+  
+  // استدعاء دالة التهيئة عند تحميل الصفحة
+  window.addEventListener('load', function() {
+    // استدعاء الدالة الرئيسية للتهيئة
+    initializeApp();
     
-   // زر العودة للصفحة الرئيسية
+    // زر التحديث في الصفحة الرئيسية
+    const refreshButton = document.getElementById('refreshButton');
+    if (refreshButton) {
+      refreshButton.addEventListener('click', refreshIslands);
+    }
+    
+    // زر تبديل المستخدم في الصفحة الرئيسية
     const switchUserButtonMain = document.getElementById('switchUserButtonMain');
     if (switchUserButtonMain) {
-      switchUserButtonMain.addEventListener('click', function() {
-        // حفظ البيانات قبل العودة
-        saveGameData().then(() => {
-          window.location.href = 'https://alomairmo.github.io/island/';
-        }).catch(err => {
-          console.error('فشل في حفظ البيانات:', err);
-          // العودة حتى في حالة فشل الحفظ
-          window.location.href = 'https://alomairmo.github.io/island/';
-        });
-      });
+      switchUserButtonMain.addEventListener('click', switchUser);
     }
     
     // يتم عرض التفاصيل الإضافية في العرض المفصل فقط
