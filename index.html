@@ -54,7 +54,7 @@
 
     .user-image {
       width: 100%;
-      height: 60%;
+      height: 50%;
       background-size: cover;
       background-position: center;
     }
@@ -79,7 +79,7 @@
     }
 
     .user-details {
-      padding: 20px;
+      padding: 15px;
       text-align: center;
     }
 
@@ -93,6 +93,39 @@
     .user-stats {
       font-size: 14px;
       color: #666;
+      margin-bottom: 5px;
+    }
+    
+    .user-rating, .user-alerts {
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    .rating-value {
+      font-weight: bold;
+    }
+
+    .alert-count {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 5px;
+    }
+
+    .alert-icon-mini {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 3px;
+    }
+
+    .alert-yellow-mini {
+      background-color: #FFCC00;
+    }
+
+    .alert-red-mini {
+      background-color: #FF0000;
     }
 
     .loader {
@@ -213,7 +246,7 @@
       100% { transform: translateX(0); }
     }
   </style>
-    <!-- مكتبات Firebase -->
+  <!-- مكتبات Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 </head>
@@ -228,6 +261,8 @@
       <div class="user-details">
         <div class="user-name">محمد</div>
         <div class="user-stats" id="mohammed-stats">جارٍ التحميل...</div>
+        <div class="user-rating" id="mohammed-rating"></div>
+        <div class="user-alerts" id="mohammed-alerts"></div>
       </div>
     </div>
 
@@ -238,6 +273,8 @@
       <div class="user-details">
         <div class="user-name">سعد</div>
         <div class="user-stats" id="saad-stats">جارٍ التحميل...</div>
+        <div class="user-rating" id="saad-rating"></div>
+        <div class="user-alerts" id="saad-alerts"></div>
       </div>
     </div>
   </div>
@@ -271,7 +308,7 @@
     const firebaseConfig = {
       apiKey: "AIzaSyDuGoFrbrN73z-JiiFsfTBydg28Lft4EUk",
       authDomain: "island-74dec.firebaseapp.com",
-      databaseURL: "https://island-74dec-default-rtdb.firebaseio.com", // أضف هذا السطر
+      databaseURL: "https://island-74dec-default-rtdb.firebaseio.com", // تأكد من إضافة هذا
       projectId: "island-74dec",
       storageBucket: "island-74dec.firebasestorage.app",
       messagingSenderId: "220206860551",
@@ -293,24 +330,36 @@
     const mohammedProgress = document.getElementById('mohammed-progress');
     const saadProgress = document.getElementById('saad-progress');
 
-    // وظيفة لجلب بيانات المستخدمين من GitHub
+    // وظيفة لجلب بيانات المستخدمين من Firebase
     async function fetchUserData(user) {
       try {
-        // هنا ستضيف الرابط الخاص بملف البيانات على GitHub
-        // هذا مثال فقط، ستحتاج لتعديله ليناسب هيكل المشروع الخاص بك
-        const url = `https://raw.githubusercontent.com/yourusername/islands-game/main/data/${user}-data.json`;
+        console.log(`جاري جلب بيانات ${user} من Firebase...`);
+        // محاولة جلب البيانات من Firebase
+        const snapshot = await database.ref(`users/${user}`).once('value');
+        const userData = snapshot.val();
         
-        // محاولة جلب البيانات
-        const response = await fetch(url);
-        
-        // إذا كان الملف غير موجود، سنعيد بيانات فارغة كبداية
-        if (!response.ok) {
-          return { islandsData: [], islandAverageRatings: [] };
+        if (userData) {
+          console.log(`تم جلب بيانات ${user} بنجاح من Firebase`);
+          return userData;
+        } else {
+          console.log(`لا توجد بيانات لـ ${user} في Firebase، استخدام التخزين المحلي`);
+          // محاولة جلب البيانات من التخزين المحلي
+          const localData = localStorage.getItem(`islandsCastlesGame_${user}`);
+          if (localData) {
+            return JSON.parse(localData);
+          }
         }
         
-        return await response.json();
+        // إذا لم توجد بيانات، إرجاع هيكل فارغ
+        console.log(`لا توجد بيانات متاحة لـ ${user}`);
+        return { islandsData: [], islandAverageRatings: [] };
       } catch (error) {
         console.error(`خطأ في جلب بيانات ${user}:`, error);
+        // محاولة استخدام التخزين المحلي
+        const localData = localStorage.getItem(`islandsCastlesGame_${user}`);
+        if (localData) {
+          return JSON.parse(localData);
+        }
         // إرجاع بيانات فارغة في حالة حدوث خطأ
         return { islandsData: [], islandAverageRatings: [] };
       }
@@ -323,7 +372,9 @@
           totalCastles: 0,
           ratedCastles: 0,
           averageRating: 0,
-          completionPercentage: 0
+          completionPercentage: 0,
+          yellowAlerts: 0,
+          redAlerts: 0
         };
       }
 
@@ -351,12 +402,65 @@
       // حساب نسبة الإكمال
       const completionPercentage = totalCastles > 0 ? (ratedCastles / totalCastles) * 100 : 0;
 
+      // حساب عدد التنبيهات
+      let yellowAlerts = 0;
+      let redAlerts = 0;
+      
+      // إذا كانت هناك إعدادات للتنبيهات
+      const yellowAlertMinutes = userData.settings?.yellowAlertMinutes || 5;
+      const redAlertMinutes = userData.settings?.redAlertMinutes || 10;
+      
+      const now = Date.now();
+      
+      // حساب التنبيهات لكل قلعة
+      for (let i = 0; i < userData.islandsData.length; i++) {
+        const castles = userData.islandsData[i] || [];
+        
+        for (let j = 0; j < castles.length; j++) {
+          const castle = castles[j];
+          if (castle && castle.evaluated && castle.lastRated) {
+            const lastRated = new Date(castle.lastRated).getTime();
+            const timeDiff = (now - lastRated) / (1000 * 60); // الفرق بالدقائق
+            
+            if (timeDiff >= redAlertMinutes) {
+              redAlerts++;
+            } else if (timeDiff >= yellowAlertMinutes) {
+              yellowAlerts++;
+            }
+          }
+        }
+      }
+
       return {
         totalCastles,
         ratedCastles,
         averageRating,
-        completionPercentage
+        completionPercentage,
+        yellowAlerts,
+        redAlerts
       };
+    }
+
+    // وظيفة لتحويل قيمة التقييم إلى لون
+    function getRatingColor(rating) {
+      // تحديد اللون بناءً على التقييم
+      if (rating >= 95) {
+        return '#00FF00'; // أخضر ساطع عند 100%
+      } else if (rating >= 75) {
+        // تدرج من الأخضر الفاتح إلى الأصفر من 95% إلى 75%
+        const green = 255;
+        const red = 255 - Math.floor((rating - 75) * (255 / 20));
+        return `rgb(${red}, ${green}, 0)`;
+      } else if (rating >= 50) {
+        // تدرج من الأصفر إلى البرتقالي من 75% إلى 50%
+        const green = Math.floor((rating - 50) * (255 / 25));
+        return `rgb(255, ${green}, 0)`;
+      } else {
+        // تدرج من البرتقالي إلى الأحمر من 50% إلى 0%
+        const red = 255;
+        const green = Math.floor(rating * 2.55);
+        return `rgb(${red}, ${green}, 0)`;
+      }
     }
 
     // وظيفة لتحديث واجهة المستخدم بالإحصائيات
@@ -370,11 +474,35 @@
         const mohammedStats = calculateUserStats(mohammedData);
         const saadStats = calculateUserStats(saadData);
 
-        // تحديث واجهة المستخدم
+        // تحديث واجهة المستخدم - محمد
         document.getElementById('mohammed-stats').textContent = 
           `${mohammedStats.ratedCastles} / ${mohammedStats.totalCastles} قلعة`;
+        
+        // تحديث متوسط التقييم - محمد
+        const mohammedRatingElement = document.getElementById('mohammed-rating');
+        mohammedRatingElement.innerHTML = `متوسط التقييم: <span class="rating-value" style="color: ${getRatingColor(mohammedStats.averageRating)}">${mohammedStats.averageRating.toFixed(1)}%</span>`;
+        
+        // تحديث التنبيهات - محمد
+        const mohammedAlertsElement = document.getElementById('mohammed-alerts');
+        mohammedAlertsElement.innerHTML = `
+          <span class="alert-count"><span class="alert-icon-mini alert-yellow-mini"></span>${mohammedStats.yellowAlerts}</span>
+          <span class="alert-count"><span class="alert-icon-mini alert-red-mini"></span>${mohammedStats.redAlerts}</span>
+        `;
+
+        // تحديث واجهة المستخدم - سعد
         document.getElementById('saad-stats').textContent = 
           `${saadStats.ratedCastles} / ${saadStats.totalCastles} قلعة`;
+        
+        // تحديث متوسط التقييم - سعد
+        const saadRatingElement = document.getElementById('saad-rating');
+        saadRatingElement.innerHTML = `متوسط التقييم: <span class="rating-value" style="color: ${getRatingColor(saadStats.averageRating)}">${saadStats.averageRating.toFixed(1)}%</span>`;
+        
+        // تحديث التنبيهات - سعد
+        const saadAlertsElement = document.getElementById('saad-alerts');
+        saadAlertsElement.innerHTML = `
+          <span class="alert-count"><span class="alert-icon-mini alert-yellow-mini"></span>${saadStats.yellowAlerts}</span>
+          <span class="alert-count"><span class="alert-icon-mini alert-red-mini"></span>${saadStats.redAlerts}</span>
+        `;
 
         // تحديث نسبة الإكمال
         document.getElementById('mohammed-progress').textContent = 
