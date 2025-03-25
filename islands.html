@@ -5,21 +5,7 @@
   <title>لعبة الجزر والقلاع</title>
   <style>
     /* زر العودة للصفحة الرئيسية */
-    .home-button {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 10px 20px;
-      background-color: #FF9800;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      z-index: 101;
-      display: flex;
-      align-items: center;
-    }
+
     .home-button:hover {
       background-color: #F57C00;
     }
@@ -744,7 +730,11 @@
 </head>
 <body>
   <div class="game-container">
-
+    <!-- زر العودة للصفحة الرئيسية -->
+    <button class="home-button" id="homeButton">
+      العودة للصفحة الرئيسية
+      <span class="home-icon">🏠</span>
+    </button>
     
     <!-- زر التحديث -->
     <button class="refresh-button" id="refreshButton">
