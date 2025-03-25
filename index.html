@@ -59,7 +59,7 @@
     }
 
     .user-card {
-      width: 240px;
+      width: 300px;
       border-radius: 20px;
       overflow: hidden;
       background-color: white;
@@ -121,6 +121,11 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
+    }
+
+    .user-icon-fallback {
+      font-size: 60px;
+      color: #777;
     }
 
     .card-body {
@@ -396,7 +401,31 @@
         font-size: 16px;
       }
     }
+    
+    /* إطار أزرق خلفي للبطاقة */
+    .card-checkered-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    
+    .card-checkered-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      background: 
+        linear-gradient(45deg, #2196F3 25%, #42A5F5 25%, #42A5F5 50%, #2196F3 50%, #2196F3 75%, #42A5F5 75%, #42A5F5 100%);
+      background-size: 20px 20px;
+    }
   </style>
+  
   <!-- مكتبات Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
@@ -417,19 +446,20 @@
           <div class="header-pattern"></div>
         </div>
         <div class="user-image-container">
-          <img src="image1.png" class="user-icon" alt="محمد">
+          <img src="image1.png" class="user-icon" alt="محمد" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <div class="user-icon-fallback" style="display:none;">👨‍🏫</div>
         </div>
         <div class="card-body">
           <div class="user-name">محمد</div>
           <div class="stats-container">
             <div class="stats-item">
-              <div>القلاع المُقيّمة: <span class="stat-value" id="mohammed-castles">-- / --</span></div>
+              <div>القلاع المُقيّمة: <span class="stat-value" id="mohammed-castles">0 / 0</span></div>
             </div>
             <div class="stats-item">
-              <div>متوسط التقييم: <span class="stat-value" id="mohammed-rating">--%</span></div>
+              <div>متوسط التقييم: <span class="stat-value" id="mohammed-rating">0%</span></div>
             </div>
             <div class="stats-item">
-              <div>نسبة الإكمال: <span class="stat-value" id="mohammed-completion">--%</span></div>
+              <div>نسبة الإكمال: <span class="stat-value" id="mohammed-completion">0%</span></div>
             </div>
           </div>
           <div class="alerts-container">
@@ -450,23 +480,28 @@
       </div>
 
       <div class="user-card" id="saad-card">
+        <!-- إضافة خلفية مربعات زرقاء -->
+        <div class="card-checkered-bg">
+          <div class="card-checkered-pattern"></div>
+        </div>
         <div class="card-header saad">
           <div class="header-pattern"></div>
         </div>
         <div class="user-image-container">
-          <img src="image2.png" class="user-icon" alt="سعد">
+          <img src="image2.png" class="user-icon" alt="سعد" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <div class="user-icon-fallback" style="display:none;">👨‍💼</div>
         </div>
         <div class="card-body">
           <div class="user-name">سعد</div>
           <div class="stats-container">
             <div class="stats-item">
-              <div>القلاع المُقيّمة: <span class="stat-value" id="saad-castles">-- / --</span></div>
+              <div>القلاع المُقيّمة: <span class="stat-value" id="saad-castles">0 / 0</span></div>
             </div>
             <div class="stats-item">
-              <div>متوسط التقييم: <span class="stat-value" id="saad-rating">--%</span></div>
+              <div>متوسط التقييم: <span class="stat-value" id="saad-rating">0%</span></div>
             </div>
             <div class="stats-item">
-              <div>نسبة الإكمال: <span class="stat-value" id="saad-completion">--%</span></div>
+              <div>نسبة الإكمال: <span class="stat-value" id="saad-completion">0%</span></div>
             </div>
           </div>
           <div class="alerts-container">
@@ -542,11 +577,15 @@
     // مرجع قاعدة البيانات
     const database = firebase.database();
     
-    // العناصر
+    // متغيرات العناصر
     const mohammedCard = document.getElementById('mohammed-card');
     const saadCard = document.getElementById('saad-card');
     const loader = document.getElementById('loader');
 
+    // متغيرات للإحصائيات
+    let dailyReviewStreak = 0;
+    let newCastleStreak = 0;
+    
     // وظيفة لجلب بيانات المستخدمين من Firebase
     async function fetchUserData(user) {
       try {
@@ -569,7 +608,7 @@
         
         // إذا لم توجد بيانات، إرجاع هيكل فارغ
         console.log(`لا توجد بيانات متاحة لـ ${user}`);
-        return { islandsData: [], islandAverageRatings: [] };
+        return { islandsData: [], islandAverageRatings: [], stats: { dailyReviewStreak: 0, newCastleStreak: 0 } };
       } catch (error) {
         console.error(`خطأ في جلب بيانات ${user}:`, error);
         // محاولة استخدام التخزين المحلي
@@ -578,7 +617,7 @@
           return JSON.parse(localData);
         }
         // إرجاع بيانات فارغة في حالة حدوث خطأ
-        return { islandsData: [], islandAverageRatings: [] };
+        return { islandsData: [], islandAverageRatings: [], stats: { dailyReviewStreak: 0, newCastleStreak: 0 } };
       }
     }
 
@@ -629,7 +668,7 @@
       
       const now = Date.now();
       
-      // حساب التنبيهات لكل قلعة
+// حساب التنبيهات لكل قلعة
       for (let i = 0; i < userData.islandsData.length; i++) {
         const castles = userData.islandsData[i] || [];
         
@@ -687,9 +726,20 @@
         fetchUserData('mohammed'),
         fetchUserData('saad')
       ]).then(([mohammedData, saadData]) => {
+        console.log("تم جلب بيانات المستخدمين:", mohammedData, saadData);
+        
+        // الحصول على قيم التتابع من البيانات
+        if (mohammedData.stats) {
+          dailyReviewStreak = mohammedData.stats.dailyReviewStreak || 0;
+          newCastleStreak = mohammedData.stats.newCastleStreak || 0;
+        }
+        
         // حساب الإحصائيات
         const mohammedStats = calculateUserStats(mohammedData);
         const saadStats = calculateUserStats(saadData);
+        
+        console.log("إحصائيات محمد:", mohammedStats);
+        console.log("إحصائيات سعد:", saadStats);
 
         // تحديث واجهة المستخدم - محمد
         document.getElementById('mohammed-castles').textContent = 
@@ -709,7 +759,7 @@
         document.getElementById('mohammed-red-alerts').textContent = 
           mohammedStats.redAlerts;
         
-        // تحديث إحصائيات التتابع
+        // تحديث إحصائيات التتابع - محمد
         document.getElementById('mohammed-review-streak').textContent = 
           dailyReviewStreak;
         document.getElementById('mohammed-new-streak').textContent = 
@@ -733,7 +783,8 @@
         document.getElementById('saad-red-alerts').textContent = 
           saadStats.redAlerts;
           
-        // تحديث إحصائيات التتابع
+        // تحديث إحصائيات التتابع - سعد
+        // نستخدم نفس قيم محمد حسب التصميم المطلوب
         document.getElementById('saad-review-streak').textContent = 
           dailyReviewStreak;
         document.getElementById('saad-new-streak').textContent = 
@@ -753,11 +804,45 @@
           
       }).catch(error => {
         console.error('خطأ في تحديث واجهة المستخدم:', error);
+        
+        // في حالة الخطأ، نقوم بإظهار قيم افتراضية
+        document.getElementById('mohammed-castles').textContent = "0 / 0";
+        document.getElementById('mohammed-rating').textContent = "0%";
+        document.getElementById('mohammed-completion').textContent = "0%";
+        document.getElementById('mohammed-yellow-alerts').textContent = "0";
+        document.getElementById('mohammed-red-alerts').textContent = "0";
+        document.getElementById('mohammed-review-streak').textContent = "0";
+        document.getElementById('mohammed-new-streak').textContent = "0";
+        
+        document.getElementById('saad-castles').textContent = "0 / 0";
+        document.getElementById('saad-rating').textContent = "0%";
+        document.getElementById('saad-completion').textContent = "0%";
+        document.getElementById('saad-yellow-alerts').textContent = "0";
+        document.getElementById('saad-red-alerts').textContent = "0";
+        document.getElementById('saad-review-streak').textContent = "0";
+        document.getElementById('saad-new-streak').textContent = "0";
+        
+        document.getElementById('mohammed-progress-bar').style.width = "0%";
+        document.getElementById('mohammed-progress-value').textContent = "0%";
+        document.getElementById('saad-progress-bar').style.width = "0%";
+        document.getElementById('saad-progress-value').textContent = "0%";
       });
     }
 
     // تحديث واجهة المستخدم عند تحميل الصفحة
-    window.addEventListener('load', updateUserInterface);
+    window.addEventListener('load', function() {
+      // إضافة معالجة الخطأ لتحميل الصور
+      document.querySelectorAll('.user-icon').forEach(img => {
+        img.addEventListener('error', function() {
+          console.log('فشل تحميل الصورة:', this.src);
+          this.style.display = 'none';
+          this.nextElementSibling.style.display = 'block';
+        });
+      });
+      
+      // تحديث إحصائيات المستخدمين
+      updateUserInterface();
+    });
 
     // إضافة أحداث النقر على بطاقات المستخدمين
     mohammedCard.addEventListener('click', function() {
