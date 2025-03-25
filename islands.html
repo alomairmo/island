@@ -48,12 +48,6 @@
       height: 100vh;
     }
     .game-container {
-    <div class="game-container">
-      <button class="home-button" id="homeButton">
-        العودة للصفحة الرئيسية
-        <span class="home-icon">🏠</span>
-      </button>
-      <div class="title">لعبة الجزر والقلاع</div>
       width: 100%;
       position: relative;
       padding: 20px;
@@ -265,434 +259,14 @@
       border-radius: 35% 45% 30% 40%;
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     }
-    .castle {
-      position: absolute;
-      width: 40px;
-      height: 60px;
-      background-color: #888;
-      cursor: pointer;
-      border-radius: 8px 8px 0 0;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-      transition: transform 0.2s;
-      z-index: 10;
-    }
-    .castle:hover {
-      transform: scale(1.1);
-    }
-    .castle::before {
-      content: "";
-      position: absolute;
-      top: -10px;
-      left: 0;
-      width: 100%;
-      height: 10px;
-      background-color: #888;
-      border-radius: 5px 5px 0 0;
-    }
-    .castle::after {
-      content: "";
-      position: absolute;
-      top: -10px;
-      left: 8px;
-      width: 8px;
-      height: 20px;
-      background-color: #777;
-      border-radius: 5px 5px 0 0;
-      box-shadow: 16px 0 0 #777;
-    }
-
-    .castle-door {
-      position: absolute;
-      bottom: 0;
-      left: 15px;
-      width: 10px;
-      height: 20px;
-      background-color: #4b2504;
-      border-radius: 5px 5px 0 0;
-    }
-    .castle-border {
-      position: absolute;
-      width: 60px;
-      height: 80px;
-      top: -10px;
-      left: -10px;
-      border-radius: 12px;
-      border: 3px solid transparent;
-      pointer-events: none;
-      box-sizing: border-box;
-    }
-    .castle-number {
-      position: absolute;
-      width: 100%;
-      text-align: center;
-      top: -25px;
-      color: white;
-      font-size: 14px;
-      font-weight: bold;
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
-    }
-    .castle-rating {
-      position: absolute;
-      width: 100%;
-      text-align: center;
-      top: 50%;
-      left: 0;
-      transform: translateY(-50%);
-      color: white;
-      font-size: 12px;
-      font-weight: bold;
-      text-shadow: 0 0 3px rgba(0, 0, 0, 1);
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 2px 0;
-    }
-    
-    /* علامات التعجب فوق القلاع والجزر لتنبيه الوقت */
-    .alert-icon {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      text-align: center;
-      font-size: 16px;
-      font-weight: bold;
-      border-radius: 50%;
-      line-height: 20px;
-      z-index: 12;
-      animation: pulse 1.5s infinite;
-    }
-    
-    /* علامات التعجب فوق القلاع */
-    .castle .alert-icon {
-      left: 50%;
-      top: -35px;
-      transform: translateX(-50%);
-    }
-    
-    /* علامات التعجب فوق الجزر */
-    .island .alert-icon {
-      width: 24px;
-      height: 24px;
-      font-size: 18px;
-      line-height: 24px;
-      top: -15px;
-    }
-    
-    .island .alert-icon.alert-yellow {
-      right: 25px;
-    }
-    
-    .island .alert-icon.alert-red {
-      left: 25px;
-    }
-    
-    .alert-yellow {
-      background-color: #FFCC00;
-      color: black;
-      box-shadow: 0 0 5px rgba(255, 204, 0, 0.8);
-    }
-    .alert-red {
-      background-color: #FF0000;
-      color: white;
-      box-shadow: 0 0 5px rgba(255, 0, 0, 0.8);
-    }
-    @keyframes pulse {
-      0% { transform: translateX(-50%) scale(1); }
-      50% { transform: translateX(-50%) scale(1.2); }
-      100% { transform: translateX(-50%) scale(1); }
-    }
-    
-    /* تعديل نبض علامات التعجب في الجزر */
-    @keyframes pulse-island {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
-    }
-    
-    .island .alert-icon {
-      animation: pulse-island 1.5s infinite;
-    }
-    
-    .back-button {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 18px;
-      z-index: 101;
-    }
-    .back-button:hover {
-      background-color: #45a049;
-    }
-
-    .user-button {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      padding: 10px 20px;
-      background-color: #3F51B5;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 18px;
-      z-index: 101;
-    }
-    .user-button:hover {
-      background-color: #303F9F;
-    }
-
-    .island-title {
-      position: fixed;
-      top: 20px;
-      left: 0;
-      width: 100%;
-      text-align: center;
-      font-size: 30px;
-      font-weight: bold;
-      color: white;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-      z-index: 101;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-      z-index: 200;
-      text-align: center;
-      min-width: 300px;
-    }
-    .modal-content {
-      margin-bottom: 20px;
-    }
-    .overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 199;
-    }
-    input[type="range"] {
-      width: 90%;
-      margin: 10px 0;
-    }
-    button {
-      padding: 10px 20px;
-      margin-top: 10px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    .cancel-button {
-      background-color: #f44336;
-      margin-right: 10px;
-    }
-    .cancel-button:hover {
-      background-color: #d32f2f;
-    }
-    .button-container {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-    }
-    .score-display {
-      font-size: 24px;
-      font-weight: bold;
-      margin: 10px 0;
-    }
-    .rating-time {
-      font-size: 14px;
-      color: #555;
-      margin: 5px 0;
-    }
-
-    /* تنسيق عداد التقييم العام */
-    .global-stats {
-      width: 100%;
-      text-align: center;
-      background-color: rgba(0, 0, 0, 0.3);
-      color: white;
-      padding: 15px 0;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      font-size: 18px;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-    }
-    .stats-content {
-      display: inline-block;
-      padding: 5px 20px;
-      background-color: rgba(0, 0, 0, 0.5);
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-    }
-    .stat-rating {
-      font-weight: bold;
-      color: yellow;
-      margin: 0 5px;
-    }
-    .stat-alert {
-      display: inline-flex;
-      align-items: center;
-      margin: 0 10px;
-    }
-    .stat-alert-icon {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: bold;
-      margin-right: 5px;
-      font-size: 12px;
-    }
-    
-    /* زر إغلاق نافذة التقييم */
-    .close-button {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      width: 25px;
-      height: 25px;
-      background-color: #f44336;
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 14px;
-    }
-    .close-button:hover {
-      background-color: #d32f2f;
-    }
-    
-    /* زر الإعدادات */
-    .settings-button {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      width: 28px;
-      height: 28px;
-      background-color: rgba(255, 255, 255, 0.2);
-      border-radius: 50%;
-      cursor: pointer;
-      margin-right: 5px;
-      vertical-align: middle;
-    }
-    .settings-button:hover {
-      background-color: rgba(255, 255, 255, 0.3);
-    }
-    .settings-icon {
-      width: 18px;
-      height: 18px;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>');
-      background-size: contain;
-    }
-    
-    /* نافذة الإعدادات */
-    .settings-modal {
-      width: 350px;
-    }
-    .settings-item {
-      margin: 15px 0;
-      text-align: right;
-    }
-    .settings-item label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    .settings-item input {
-      width: 60px;
-      padding: 5px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    .settings-item span {
-      margin-right: 5px;
-    }
-
-    /* زر تبديل المستخدم */
-    .switch-user-button {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      padding: 10px 20px;
-      background-color: #FF9800;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      z-index: 101;
-      display: flex;
-      align-items: center;
-    }
-    .switch-user-button:hover {
-      background-color: #F57C00;
-    }
-    .switch-user-icon {
-      margin-left: 5px;
-      font-size: 18px;
-    }
-
-    /* أنماط نافذة حفظ البيانات */
-    .save-indicator {
-      position: fixed;
-      top: 70px;
-      left: 20px;
-      background-color: rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: 10px 15px;
-      border-radius: 5px;
-      font-size: 14px;
-      z-index: 101;
-      display: none;
-      align-items: center;
-    }
-    .save-icon {
-      margin-left: 5px;
-      font-size: 16px;
-      animation: spin 1s linear infinite;
-    }
-    .save-success {
-      color: #4CAF50;
-    }
-    .save-error {
-      color: #f44336;
-    }
   </style>
-  <!-- مكتبات Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 </head>
 <body>
   <div class="game-container">
     <!-- زر التحديث - بدلاً من زر العودة للصفحة الرئيسية -->
-    <button class="refresh-button" id="refreshButton">
-      تحديث
-      <span class="refresh-icon">↻</span>
+    <button class="home-button" id="homeButton">
+      العودة للصفحة الرئيسية
+      <span class="home-icon">🏠</span>
     </button>
     
     <!-- زر تبديل المستخدم للصفحة الرئيسية -->
@@ -709,109 +283,567 @@
       <!-- سيتم إنشاء الجزر هنا باستخدام JavaScript -->
     </div>
   </div>
+</body>
+</html>
+
+<style>
+  .castle {
+    position: absolute;
+    width: 40px;
+    height: 60px;
+    background-color: #888;
+    cursor: pointer;
+    border-radius: 8px 8px 0 0;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s;
+    z-index: 10;
+  }
+  .castle:hover {
+    transform: scale(1.1);
+  }
+  .castle::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background-color: #888;
+    border-radius: 5px 5px 0 0;
+  }
+  .castle::after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 8px;
+    width: 8px;
+    height: 20px;
+    background-color: #777;
+    border-radius: 5px 5px 0 0;
+    box-shadow: 16px 0 0 #777;
+  }
+
+  .castle-door {
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    width: 10px;
+    height: 20px;
+    background-color: #4b2504;
+    border-radius: 5px 5px 0 0;
+  }
+  .castle-border {
+    position: absolute;
+    width: 60px;
+    height: 80px;
+    top: -10px;
+    left: -10px;
+    border-radius: 12px;
+    border: 3px solid transparent;
+    pointer-events: none;
+    box-sizing: border-box;
+  }
+  .castle-number {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: -25px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
+  }
+  .castle-rating {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 1);
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 2px 0;
+  }
   
-  <!-- عداد التقييم العام -->
-  <div class="global-stats" id="globalStats">
+  /* علامات التعجب فوق القلاع والجزر لتنبيه الوقت */
+  .alert-icon {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 50%;
+    line-height: 20px;
+    z-index: 12;
+    animation: pulse 1.5s infinite;
+  }
+  
+  /* علامات التعجب فوق القلاع */
+  .castle .alert-icon {
+    left: 50%;
+    top: -35px;
+    transform: translateX(-50%);
+  }
+  
+  /* علامات التعجب فوق الجزر */
+  .island .alert-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 18px;
+    line-height: 24px;
+    top: -15px;
+  }
+  
+  .island .alert-icon.alert-yellow {
+    right: 25px;
+  }
+  
+  .island .alert-icon.alert-red {
+    left: 25px;
+  }
+  
+  .alert-yellow {
+    background-color: #FFCC00;
+    color: black;
+    box-shadow: 0 0 5px rgba(255, 204, 0, 0.8);
+  }
+  .alert-red {
+    background-color: #FF0000;
+    color: white;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.8);
+  }
+  @keyframes pulse {
+    0% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.2); }
+    100% { transform: translateX(-50%) scale(1); }
+  }
+  
+  /* تعديل نبض علامات التعجب في الجزر */
+  @keyframes pulse-island {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+  
+  .island .alert-icon {
+    animation: pulse-island 1.5s infinite;
+  }
+  
+  .back-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 101;
+  }
+  .back-button:hover {
+    background-color: #45a049;
+  }
+
+  .user-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: #3F51B5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 101;
+  }
+  .user-button:hover {
+    background-color: #303F9F;
+  }
+
+  .island-title {
+    position: fixed;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 101;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    z-index: 200;
+    text-align: center;
+    min-width: 300px;
+  }
+  .modal-content {
+    margin-bottom: 20px;
+  }
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 199;
+  }
+  input[type="range"] {
+    width: 90%;
+    margin: 10px 0;
+  }
+  button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #45a049;
+  }
+  .cancel-button {
+    background-color: #f44336;
+    margin-right: 10px;
+  }
+  .cancel-button:hover {
+    background-color: #d32f2f;
+  }
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  .score-display {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  .rating-time {
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
+  }
+
+  /* تنسيق عداد التقييم العام */
+  .global-stats {
+    width: 100%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    padding: 15px 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    font-size: 18px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+  }
+  .stats-content {
+    display: inline-block;
+    padding: 5px 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  }
+  .stat-rating {
+    font-weight: bold;
+    color: yellow;
+    margin: 0 5px;
+  }
+  .stat-alert {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 10px;
+  }
+  .stat-alert-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    margin-right: 5px;
+    font-size: 12px;
+  }
+  
+  /* زر إغلاق نافذة التقييم */
+  .close-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 25px;
+    height: 25px;
+    background-color: #f44336;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  .close-button:hover {
+    background-color: #d32f2f;
+  }
+  
+  /* زر الإعدادات */
+  .settings-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 28px;
+    height: 28px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+  .settings-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+  .settings-icon {
+    width: 18px;
+    height: 18px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>');
+    background-size: contain;
+  }
+  
+  /* نافذة الإعدادات */
+  .settings-modal {
+    width: 350px;
+  }
+  .settings-item {
+    margin: 15px 0;
+    text-align: right;
+  }
+  .settings-item label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  .settings-item input {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .settings-item span {
+    margin-right: 5px;
+  }
+</style>
+
+<style>
+  /* زر تبديل المستخدم */
+  .switch-user-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: #FF9800;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 101;
+    display: flex;
+    align-items: center;
+  }
+  .switch-user-button:hover {
+    background-color: #F57C00;
+  }
+  .switch-user-icon {
+    margin-left: 5px;
+    font-size: 18px;
+  }
+
+  /* أنماط نافذة حفظ البيانات */
+  .save-indicator {
+    position: fixed;
+    top: 70px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    z-index: 101;
+    display: none;
+    align-items: center;
+  }
+  .save-icon {
+    margin-left: 5px;
+    font-size: 16px;
+    animation: spin 1s linear infinite;
+  }
+  .save-success {
+    color: #4CAF50;
+  }
+  .save-error {
+    color: #f44336;
+  }
+  
+  /* أيقونات المؤشرات الجديدة */
+  .blue-fire-icon {
+    color: #1E90FF;
+    margin-right: 5px;
+  }
+  .green-fire-icon {
+    color: #32CD32;
+    margin-right: 5px;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+
+<!-- هيكل النوافذ المنبثقة والعناصر الإضافية -->
+<div class="detailed-view" id="detailedView">
+  <button class="back-button" id="backButton">العودة للخريطة</button>
+  <button class="switch-user-button" id="switchUserButton">
+    تبديل المستخدم
+    <span class="switch-user-icon">👥</span>
+  </button>
+  <div class="island-title" id="islandTitle">الجزيرة 1</div>
+  <div class="detailed-island">
+    <div class="detailed-grass" id="detailedGrass">
+      <!-- سيتم إنشاء القلاع هنا باستخدام JavaScript -->
+    </div>
+  </div>
+  
+  <!-- إحصائيات الجزيرة -->
+  <div class="global-stats" id="islandStats">
     <div class="stats-content">
-      تم تقييم: <span class="stat-rating" id="totalRatedCastles">0</span> من أصل
-      <span class="stat-rating" id="totalCastles">0</span> قلعة |
-      متوسط التقييم العام: <span class="stat-rating" id="globalRatingAverage">0%</span> |
+      تم تقييم: <span class="stat-rating" id="islandRatedCastles">0</span> من أصل
+      <span class="stat-rating" id="islandCastles">0</span> قلعة |
+      متوسط التقييم: <span class="stat-rating" id="islandRatingAverage">0%</span> |
       <span class="stat-alert">
-        ما يحتاج مراجعة: <span class="stat-rating" id="yellowAlertCount">0</span>
+        ما يحتاج مراجعة: <span class="stat-rating" id="islandYellowAlertCount">0</span>
         <span class="stat-alert-icon alert-yellow">!</span>
       </span> |
       <span class="stat-alert">
-        ما يحتاج مراجعة عاجلة: <span class="stat-rating" id="redAlertCount">0</span>
+        ما يحتاج مراجعة عاجلة: <span class="stat-rating" id="islandRedAlertCount">0</span>
         <span class="stat-alert-icon alert-red">!</span>
       </span>
-      <div class="settings-button" id="settingsButton">
-        <div class="settings-icon"></div>
-      </div>
     </div>
   </div>
+</div>
 
-  <div class="detailed-view" id="detailedView">
-    <button class="back-button" id="backButton">العودة للخريطة</button>
-    <button class="switch-user-button" id="switchUserButton">
-      تبديل المستخدم
-      <span class="switch-user-icon">👥</span>
-    </button>
-    <div class="island-title" id="islandTitle">الجزيرة 1</div>
-    <div class="detailed-island">
-      <div class="detailed-grass" id="detailedGrass">
-        <!-- سيتم إنشاء القلاع هنا باستخدام JavaScript -->
-      </div>
+<div class="modal" id="ratingModal">
+  <div class="close-button" id="closeRating">×</div>
+  <div class="modal-content">
+    <h2>تقييم القلعة</h2>
+    <div class="castle-number-display" id="castleNumberDisplay"></div>
+    <div class="score-display" id="scoreDisplay">50%</div>
+    <div class="rating-time" id="ratingTime"></div>
+    <input type="range" id="ratingSlider" min="0" max="100" value="50">
+    <div class="button-container">
+      <button id="cancelRating" class="cancel-button">إلغاء التقييم</button>
+      <button id="submitRating">تأكيد</button>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة الإعدادات المحدثة -->
+<div class="modal settings-modal" id="settingsModal">
+  <div class="close-button" id="closeSettings">×</div>
+  <div class="modal-content">
+    <h2>إعدادات التنبيهات</h2>
+    
+    <div class="settings-item">
+      <label>مدة الحاجة للمراجعة <span class="stat-alert-icon alert-yellow">!</span></label>
+      <input type="number" id="yellowAlertDays" min="1" value="1"> <span>أيام</span>
     </div>
     
-    <!-- إحصائيات الجزيرة -->
-    <div class="global-stats" id="islandStats">
-      <div class="stats-content">
-        تم تقييم: <span class="stat-rating" id="islandRatedCastles">0</span> من أصل
-        <span class="stat-rating" id="islandCastles">0</span> قلعة |
-        متوسط التقييم: <span class="stat-rating" id="islandRatingAverage">0%</span> |
-        <span class="stat-alert">
-          ما يحتاج مراجعة: <span class="stat-rating" id="islandYellowAlertCount">0</span>
-          <span class="stat-alert-icon alert-yellow">!</span>
-        </span> |
-        <span class="stat-alert">
-          ما يحتاج مراجعة عاجلة: <span class="stat-rating" id="islandRedAlertCount">0</span>
-          <span class="stat-alert-icon alert-red">!</span>
-        </span>
-      </div>
+    <div class="settings-item">
+      <label>مدة الحاجة للمراجعة العاجلة <span class="stat-alert-icon alert-red">!</span></label>
+      <input type="number" id="redAlertDays" min="1" value="3"> <span>أيام</span>
+    </div>
+    
+    <div class="settings-item">
+      <label>كمية المراجعة اليومية <span class="blue-fire-icon">🔵🔥</span></label>
+      <input type="number" id="dailyReviewCount" min="1" value="5"> <span>قلاع</span>
+    </div>
+    
+    <div class="settings-item">
+      <label>المدة المحتاجة لحفظ صفحة جديدة <span class="green-fire-icon">🟢🔥</span></label>
+      <input type="number" id="newCastlePeriod" min="1" value="1"> <span>أيام</span>
+    </div>
+    
+    <div class="button-container">
+      <button id="saveSettings">حفظ الإعدادات</button>
     </div>
   </div>
+</div>
 
-  <div class="modal" id="ratingModal">
-    <div class="close-button" id="closeRating">×</div>
-    <div class="modal-content">
-      <h2>تقييم القلعة</h2>
-      <div class="castle-number-display" id="castleNumberDisplay"></div>
-      <div class="score-display" id="scoreDisplay">50%</div>
-      <div class="rating-time" id="ratingTime"></div>
-      <input type="range" id="ratingSlider" min="0" max="100" value="50">
-      <div class="button-container">
-        <button id="cancelRating" class="cancel-button">إلغاء التقييم</button>
-        <button id="submitRating">تأكيد</button>
-      </div>
-    </div>
-  </div>
-  
-  <!-- نافذة الإعدادات -->
-  <div class="modal settings-modal" id="settingsModal">
-    <div class="close-button" id="closeSettings">×</div>
-    <div class="modal-content">
-      <h2>إعدادات التنبيهات</h2>
-      
-      <div class="settings-item">
-        <label>مدة الحاجة للمراجعة <span class="stat-alert-icon alert-yellow">!</span></label>
-        <input type="number" id="yellowAlertMinutes" min="1" value="5"> <span>دقائق</span>
-      </div>
-      
-      <div class="settings-item">
-        <label>مدة الحاجة للمراجعة العاجلة <span class="stat-alert-icon alert-red">!</span></label>
-        <input type="number" id="redAlertMinutes" min="1" value="10"> <span>دقائق</span>
-      </div>
-      
-      <div class="button-container">
-        <button id="saveSettings">حفظ الإعدادات</button>
-      </div>
-    </div>
-  </div>
-  
-  <!-- مؤشر الحفظ -->
-  <div class="save-indicator" id="saveIndicator">
-    <span id="saveMessage">جاري الحفظ...</span>
-    <span class="save-icon" id="saveIcon">⟳</span>
-  </div>
-  
-  <div class="overlay" id="overlay"></div>
+<!-- مؤشر الحفظ -->
+<div class="save-indicator" id="saveIndicator">
+  <span id="saveMessage">جاري الحفظ...</span>
+  <span class="save-icon" id="saveIcon">⟳</span>
+</div>
 
-  <script>
-    // تكوين Firebase
+<div class="overlay" id="overlay"></div>
+
+<!-- عداد التقييم العام -->
+<div class="global-stats" id="globalStats">
+  <div class="stats-content">
+    تم تقييم: <span class="stat-rating" id="totalRatedCastles">0</span> من أصل
+    <span class="stat-rating" id="totalCastles">0</span> قلعة |
+    متوسط التقييم العام: <span class="stat-rating" id="globalRatingAverage">0%</span> |
+    <span class="stat-alert">
+      ما يحتاج مراجعة: <span class="stat-rating" id="yellowAlertCount">0</span>
+      <span class="stat-alert-icon alert-yellow">!</span>
+    </span> |
+    <span class="stat-alert">
+      ما يحتاج مراجعة عاجلة: <span class="stat-rating" id="redAlertCount">0</span>
+      <span class="stat-alert-icon alert-red">!</span>
+    </span> |
+    <span class="stat-alert">
+      أيام المراجعة المتتالية: <span class="stat-rating" id="dailyReviewStreak">0</span>
+      <span class="blue-fire-icon">🔵🔥</span>
+    </span> |
+    <span class="stat-alert">
+      أيام التقييم الجديد: <span class="stat-rating" id="newCastleStreak">0</span>
+      <span class="green-fire-icon">🟢🔥</span>
+    </span>
+    <div class="settings-button" id="settingsButton">
+      <div class="settings-icon"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // تكوين Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyDuGoFrbrN73z-JiiFsfTBydg28Lft4EUk",
     authDomain: "island-74dec.firebaseapp.com",
-    databaseURL: "https://island-74dec-default-rtdb.europe-west1.firebasedatabase.app", // أضف هذا السطر
+    databaseURL: "https://island-74dec-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "island-74dec",
     storageBucket: "island-74dec.firebasestorage.app",
     messagingSenderId: "220206860551",
@@ -824,8 +856,10 @@
   
   // مرجع قاعدة البيانات
   const database = firebase.database();
+  
   // المتغيرات العامة
   const numberOfIslands = 30;
+  
   // عدد القلاع لكل جزيرة (21 للجزيرة الأولى، 20 للباقي، 23 للجزيرة 30)
   function getCastlesCount(islandId) {
     if (islandId === 0) {
@@ -863,6 +897,8 @@
   const globalRatingAverageElement = document.getElementById('globalRatingAverage');
   const yellowAlertCountElement = document.getElementById('yellowAlertCount');
   const redAlertCountElement = document.getElementById('redAlertCount');
+  const dailyReviewStreakElement = document.getElementById('dailyReviewStreak');
+  const newCastleStreakElement = document.getElementById('newCastleStreak');
   
   // عناصر إحصائيات الجزيرة
   const islandStatsElement = document.getElementById('islandStats');
@@ -876,17 +912,28 @@
   const settingsButton = document.getElementById('settingsButton');
   const settingsModal = document.getElementById('settingsModal');
   const closeSettingsButton = document.getElementById('closeSettings');
-  const yellowAlertMinutesInput = document.getElementById('yellowAlertMinutes');
-  const redAlertMinutesInput = document.getElementById('redAlertMinutes');
+  const yellowAlertDaysInput = document.getElementById('yellowAlertDays');
+  const redAlertDaysInput = document.getElementById('redAlertDays');
+  const dailyReviewCountInput = document.getElementById('dailyReviewCount');
+  const newCastlePeriodInput = document.getElementById('newCastlePeriod');
   const saveSettingsButton = document.getElementById('saveSettings');
   
   let currentIsland = null;
   let selectedCastle = null;
   let alertCheckInterval = null; // فاصل زمني للتحقق من تنبيهات التقييم
   
-  // متغيرات مدة التنبيهات (بالدقائق)
-  let yellowAlertMinutes = 5;  // المدة الافتراضية للتنبيه الأصفر
-  let redAlertMinutes = 10;    // المدة الافتراضية للتنبيه الأحمر
+  // متغيرات مدة التنبيهات (بالأيام)
+  let yellowAlertDays = 1;  // المدة الافتراضية للتنبيه الأصفر (يوم واحد)
+  let redAlertDays = 3;    // المدة الافتراضية للتنبيه الأحمر (3 أيام)
+  let dailyReviewCount = 5; // عدد المراجعات اليومية
+  let newCastlePeriod = 1; // المدة المطلوبة لتقييم قلعة جديدة (يوم واحد)
+  
+  // متغيرات للإحصائيات
+  let dailyReviewStreak = 0; // عدد أيام المراجعة المتتالية
+  let newCastleStreak = 0; // عدد أيام تقييم القلاع الجديدة
+  let lastReviewDate = null; // تاريخ آخر مراجعة
+  let reviewsCompletedToday = 0; // عدد المراجعات المكتملة اليوم
+  let lastNewCastleDate = null; // تاريخ آخر تقييم لقلعة جديدة
   
   // المستخدم الحالي
   let currentUser = localStorage.getItem('selectedUser') || 'mohammed';
@@ -919,7 +966,9 @@
   function pseudoRandom(seed, index) {
     return (Math.sin(seed * 9999 + index * 999) * 10000) % 1;
   }
-  
+</script>
+
+<script>
   // تنسيق التاريخ بطريقة سهلة القراءة
   function formatDate(timestamp) {
     if (!timestamp) return 'لم يتم التقييم بعد';
@@ -944,6 +993,42 @@
     }
   }
   
+  // التحقق ما إذا كان التاريخان في نفس اليوم
+  function isSameDay(date1, date2) {
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+    return d1.getFullYear() === d2.getFullYear() &&
+           d1.getMonth() === d2.getMonth() &&
+           d1.getDate() === d2.getDate();
+  }
+  
+  // التحقق ما إذا كان التاريخان في أيام متتالية
+  function isConsecutiveDay(prevDate, currDate) {
+    const d1 = new Date(prevDate);
+    const d2 = new Date(currDate);
+    
+    // إضافة يوم واحد إلى التاريخ السابق
+    d1.setDate(d1.getDate() + 1);
+    
+    return d1.getFullYear() === d2.getFullYear() &&
+           d1.getMonth() === d2.getMonth() &&
+           d1.getDate() === d2.getDate();
+  }
+  
+  // حساب الفرق بالأيام بين تاريخين
+  function getDaysDifference(date1, date2) {
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+    // إزالة معلومات الوقت وضبط التواريخ على منتصف الليل
+    d1.setHours(0, 0, 0, 0);
+    d2.setHours(0, 0, 0, 0);
+    
+    // حساب الفرق بالمللي ثانية وتحويله إلى أيام
+    const diffTime = Math.abs(d2 - d1);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  }
+  
   // وظيفة لحفظ البيانات على Firebase (نسخة مبسطة وآمنة)
   async function saveGameData() {
     console.log("محاولة حفظ البيانات...");
@@ -958,8 +1043,17 @@
         islandsData: islandsData,
         islandAverageRatings: islandAverageRatings,
         settings: {
-          yellowAlertMinutes: yellowAlertMinutes,
-          redAlertMinutes: redAlertMinutes
+          yellowAlertDays: yellowAlertDays,
+          redAlertDays: redAlertDays,
+          dailyReviewCount: dailyReviewCount,
+          newCastlePeriod: newCastlePeriod
+        },
+        stats: {
+          dailyReviewStreak: dailyReviewStreak,
+          newCastleStreak: newCastleStreak,
+          lastReviewDate: lastReviewDate,
+          reviewsCompletedToday: reviewsCompletedToday,
+          lastNewCastleDate: lastNewCastleDate
         },
         lastUpdated: new Date().toISOString()
       };
@@ -1029,10 +1123,23 @@
           islandAverageRatings = localData.islandAverageRatings;
           
           if (localData.settings) {
-            yellowAlertMinutes = localData.settings.yellowAlertMinutes || 5;
-            redAlertMinutes = localData.settings.redAlertMinutes || 10;
-            yellowAlertMinutesInput.value = yellowAlertMinutes;
-            redAlertMinutesInput.value = redAlertMinutes;
+            yellowAlertDays = localData.settings.yellowAlertDays || 1;
+            redAlertDays = localData.settings.redAlertDays || 3;
+            dailyReviewCount = localData.settings.dailyReviewCount || 5;
+            newCastlePeriod = localData.settings.newCastlePeriod || 1;
+            
+            yellowAlertDaysInput.value = yellowAlertDays;
+            redAlertDaysInput.value = redAlertDays;
+            dailyReviewCountInput.value = dailyReviewCount;
+            newCastlePeriodInput.value = newCastlePeriod;
+          }
+          
+          if (localData.stats) {
+            dailyReviewStreak = localData.stats.dailyReviewStreak || 0;
+            newCastleStreak = localData.stats.newCastleStreak || 0;
+            lastReviewDate = localData.stats.lastReviewDate;
+            reviewsCompletedToday = localData.stats.reviewsCompletedToday || 0;
+            lastNewCastleDate = localData.stats.lastNewCastleDate;
           }
           
           // مزامنة البيانات المحلية الأحدث مع Firebase
@@ -1043,10 +1150,23 @@
           islandAverageRatings = onlineData.islandAverageRatings;
           
           if (onlineData.settings) {
-            yellowAlertMinutes = onlineData.settings.yellowAlertMinutes || 5;
-            redAlertMinutes = onlineData.settings.redAlertMinutes || 10;
-            yellowAlertMinutesInput.value = yellowAlertMinutes;
-            redAlertMinutesInput.value = redAlertMinutes;
+            yellowAlertDays = onlineData.settings.yellowAlertDays || 1;
+            redAlertDays = onlineData.settings.redAlertDays || 3;
+            dailyReviewCount = onlineData.settings.dailyReviewCount || 5;
+            newCastlePeriod = onlineData.settings.newCastlePeriod || 1;
+            
+            yellowAlertDaysInput.value = yellowAlertDays;
+            redAlertDaysInput.value = redAlertDays;
+            dailyReviewCountInput.value = dailyReviewCount;
+            newCastlePeriodInput.value = newCastlePeriod;
+          }
+          
+          if (onlineData.stats) {
+            dailyReviewStreak = onlineData.stats.dailyReviewStreak || 0;
+            newCastleStreak = onlineData.stats.newCastleStreak || 0;
+            lastReviewDate = onlineData.stats.lastReviewDate;
+            reviewsCompletedToday = onlineData.stats.reviewsCompletedToday || 0;
+            lastNewCastleDate = onlineData.stats.lastNewCastleDate;
           }
           
           // تحديث التخزين المحلي
@@ -1063,10 +1183,23 @@
         islandAverageRatings = localData.islandAverageRatings;
         
         if (localData.settings) {
-          yellowAlertMinutes = localData.settings.yellowAlertMinutes || 5;
-          redAlertMinutes = localData.settings.redAlertMinutes || 10;
-          yellowAlertMinutesInput.value = yellowAlertMinutes;
-          redAlertMinutesInput.value = redAlertMinutes;
+          yellowAlertDays = localData.settings.yellowAlertDays || 1;
+          redAlertDays = localData.settings.redAlertDays || 3;
+          dailyReviewCount = localData.settings.dailyReviewCount || 5;
+          newCastlePeriod = localData.settings.newCastlePeriod || 1;
+          
+          yellowAlertDaysInput.value = yellowAlertDays;
+          redAlertDaysInput.value = redAlertDays;
+          dailyReviewCountInput.value = dailyReviewCount;
+          newCastlePeriodInput.value = newCastlePeriod;
+        }
+        
+        if (localData.stats) {
+          dailyReviewStreak = localData.stats.dailyReviewStreak || 0;
+          newCastleStreak = localData.stats.newCastleStreak || 0;
+          lastReviewDate = localData.stats.lastReviewDate;
+          reviewsCompletedToday = localData.stats.reviewsCompletedToday || 0;
+          lastNewCastleDate = localData.stats.lastNewCastleDate;
         }
         
         // رفع البيانات المحلية إلى Firebase
@@ -1091,10 +1224,23 @@
         islandAverageRatings = localData.islandAverageRatings;
         
         if (localData.settings) {
-          yellowAlertMinutes = localData.settings.yellowAlertMinutes || 5;
-          redAlertMinutes = localData.settings.redAlertMinutes || 10;
-          yellowAlertMinutesInput.value = yellowAlertMinutes;
-          redAlertMinutesInput.value = redAlertMinutes;
+          yellowAlertDays = localData.settings.yellowAlertDays || 1;
+          redAlertDays = localData.settings.redAlertDays || 3;
+          dailyReviewCount = localData.settings.dailyReviewCount || 5;
+          newCastlePeriod = localData.settings.newCastlePeriod || 1;
+          
+          yellowAlertDaysInput.value = yellowAlertDays;
+          redAlertDaysInput.value = redAlertDays;
+          dailyReviewCountInput.value = dailyReviewCount;
+          newCastlePeriodInput.value = newCastlePeriod;
+        }
+        
+        if (localData.stats) {
+          dailyReviewStreak = localData.stats.dailyReviewStreak || 0;
+          newCastleStreak = localData.stats.newCastleStreak || 0;
+          lastReviewDate = localData.stats.lastReviewDate;
+          reviewsCompletedToday = localData.stats.reviewsCompletedToday || 0;
+          lastNewCastleDate = localData.stats.lastNewCastleDate;
         }
         
         return true;
@@ -1103,91 +1249,75 @@
       return false;
     }
   }
+  
+  // تحديث بيانات المراجعة اليومية
+  function updateDailyReviewStats(isNewCastle) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
     
-  // تهيئة بيانات اللعبة
-  function initializeGameData() {
-    // محاولة تحميل البيانات المحفوظة
-    const dataLoaded = loadGameData();
-    
-    // إذا لم توجد بيانات محفوظة، قم بإنشاء بيانات جديدة
-    if (!dataLoaded) {
-      for (let i = 0; i < numberOfIslands; i++) {
-        const castlesCount = getCastlesCount(i);
-        console.log(`تهيئة الجزيرة ${i+1} بعدد قلاع: ${castlesCount}`);
-        
-        // إنشاء مصفوفة لتخزين بيانات قلاع الجزيرة
-        islandsData[i] = [];
-        for (let j = 0; j < castlesCount; j++) {
-          islandsData[i][j] = {
-            rating: 0,
-            evaluated: false,
-            lastRated: null // وقت آخر تقييم
-          };
+    // تحديث إحصائيات المراجعة اليومية
+    if (lastReviewDate) {
+      const lastDate = new Date(lastReviewDate);
+      lastDate.setHours(0, 0, 0, 0);
+      
+      if (isSameDay(today, lastDate)) {
+        // نفس اليوم، فقط زيادة عدد المراجعات
+        reviewsCompletedToday++;
+      } else if (isConsecutiveDay(lastDate, today)) {
+        // اليوم التالي مباشرة
+        reviewsCompletedToday = 1;
+        // التحقق إذا كان المستخدم أكمل المراجعات اليومية بالأمس
+        if (lastReviewDate && reviewsCompletedToday >= dailyReviewCount) {
+          dailyReviewStreak++;
+        } else {
+          dailyReviewStreak = 0; // إعادة تعيين التتابع
         }
-        
-        // تهيئة متوسط التقييم
-        islandAverageRatings[i] = {
-          average: 0,
-          evaluated: 0
-        };
+      } else {
+        // ليس نفس اليوم ولا اليوم التالي، إعادة تعيين
+        reviewsCompletedToday = 1;
+        dailyReviewStreak = 0;
       }
-    } 
-    // التأكد من وجود خاصية lastRated وعدد صحيح من القلاع لكل جزيرة
-    else {
-      for (let i = 0; i < numberOfIslands; i++) {
-        const castlesCount = getCastlesCount(i);
-        console.log(`فحص الجزيرة ${i+1} بعدد قلاع: ${castlesCount}, الموجود: ${islandsData[i]?.length || 0}`);
-        
-        // تأكد من وجود مصفوفة لهذه الجزيرة
-        if (!islandsData[i]) {
-          islandsData[i] = [];
-        }
-        
-        // تأكد من وجود العدد الصحيح من القلاع
-        if (islandsData[i].length !== castlesCount) {
-          console.log(`تصحيح عدد القلاع للجزيرة ${i+1}: من ${islandsData[i].length} إلى ${castlesCount}`);
-          // إذا كان هناك قلاع أكثر، نقوم بحذف الزائدة
-          while (islandsData[i].length > castlesCount) {
-            islandsData[i].pop();
-          }
-          // إذا كان هناك قلاع أقل، نضيف الجديدة
-          while (islandsData[i].length < castlesCount) {
-            islandsData[i].push({
-              rating: 0,
-              evaluated: false,
-              lastRated: null
-            });
-          }
-        }
-        
-        // تأكد من وجود خاصية lastRated لكل قلعة
-        for (let j = 0; j < castlesCount; j++) {
-          if (!islandsData[i][j]) {
-            islandsData[i][j] = {
-              rating: 0,
-              evaluated: false,
-              lastRated: null
-            };
-          } else if (islandsData[i][j].lastRated === undefined) {
-            islandsData[i][j].lastRated = null;
-          }
-        }
-        
-        // تأكد من وجود بيانات متوسط التقييم
-        if (!islandAverageRatings[i]) {
-          islandAverageRatings[i] = {
-            average: 0,
-            evaluated: 0
-          };
-        }
-      }
+    } else {
+      // أول مراجعة على الإطلاق
+      reviewsCompletedToday = 1;
     }
+    
+    // تحديث تاريخ آخر مراجعة
+    lastReviewDate = today.toISOString();
+    
+    // تحديث إحصائيات القلاع الجديدة إذا كانت قلعة جديدة
+    if (isNewCastle) {
+      if (lastNewCastleDate) {
+        const lastNewDate = new Date(lastNewCastleDate);
+        lastNewDate.setHours(0, 0, 0, 0);
+        
+        const daysDiff = getDaysDifference(lastNewDate, today);
+        
+        if (daysDiff <= newCastlePeriod) {
+          // تم تقييم قلعة جديدة ضمن الفترة المطلوبة
+          if (daysDiff === newCastlePeriod) {
+            // أكمل التحدي بالضبط في آخر يوم
+            newCastleStreak += newCastlePeriod;
+          }
+          // إذا كان قبل الموعد المتوقع، لا تغير في التتابع
+          // فقط تحديث التاريخ
+        } else {
+          // تأخر عن الفترة المطلوبة، إعادة تعيين
+          newCastleStreak = 0;
+        }
+      }
+      
+      // تحديث تاريخ آخر تقييم لقلعة جديدة
+      lastNewCastleDate = today.toISOString();
+    }
+    
+    // تحديث عرض الإحصائيات
+    dailyReviewStreakElement.textContent = dailyReviewStreak;
+    newCastleStreakElement.textContent = newCastleStreak;
   }
-</script>
-
-<script>
-  // حساب عدد القلاع التي تحتاج للمراجعة
-  function countAlertCastles() {
+    
+ // حساب عدد القلاع التي تحتاج للمراجعة
+ function countAlertCastles() {
     let yellowCount = 0;
     let redCount = 0;
     const now = Date.now();
@@ -1200,11 +1330,11 @@
         if (!castleData.evaluated || !castleData.lastRated) continue;
         
         const lastRated = new Date(castleData.lastRated).getTime();
-        const timeDiff = (now - lastRated) / (1000 * 60); // الفرق بالدقائق
+        const daysDiff = Math.floor((now - lastRated) / (1000 * 60 * 60 * 24)); // الفرق بالأيام
         
-        if (timeDiff >= redAlertMinutes) {
+        if (daysDiff >= redAlertDays) {
           redCount++;
-        } else if (timeDiff >= yellowAlertMinutes) {
+        } else if (daysDiff >= yellowAlertDays) {
           yellowCount++;
         }
       }
@@ -1225,11 +1355,11 @@
       if (!castleData.evaluated || !castleData.lastRated) continue;
       
       const lastRated = new Date(castleData.lastRated).getTime();
-      const timeDiff = (now - lastRated) / (1000 * 60); // الفرق بالدقائق
+      const daysDiff = Math.floor((now - lastRated) / (1000 * 60 * 60 * 24)); // الفرق بالأيام
       
-      if (timeDiff >= redAlertMinutes) {
+      if (daysDiff >= redAlertDays) {
         redCount++;
-      } else if (timeDiff >= yellowAlertMinutes) {
+      } else if (daysDiff >= yellowAlertDays) {
         yellowCount++;
       }
     }
@@ -1249,7 +1379,7 @@
       if (!castleData.evaluated || !castleData.lastRated) continue;
       
       const lastRated = new Date(castleData.lastRated).getTime();
-      const timeDiff = (now - lastRated) / (1000 * 60); // الفرق بالدقائق
+      const daysDiff = Math.floor((now - lastRated) / (1000 * 60 * 60 * 24)); // الفرق بالأيام
       
       // إزالة أي علامات تنبيه موجودة
       const castle = document.querySelector(`.castle[data-castle-id="${i}"]`);
@@ -1261,15 +1391,42 @@
       }
       
       // إضافة علامة تنبيه جديدة إذا لزم الأمر
-      if (timeDiff >= redAlertMinutes) { // مر وقت المراجعة العاجلة
+      if (daysDiff >= redAlertDays) { // مر وقت المراجعة العاجلة
         addAlertIcon(castle, 'red');
-      } else if (timeDiff >= yellowAlertMinutes) { // مر وقت المراجعة العادية
+      } else if (daysDiff >= yellowAlertDays) { // مر وقت المراجعة العادية
         addAlertIcon(castle, 'yellow');
       }
     }
     
     // تحديث إحصائيات الجزيرة
     updateIslandStats();
+  }
+  
+  // التحقق من حالة تنبيهات الجزيرة
+  function checkIslandAlertStatus(islandId) {
+    let hasYellow = false;
+    let hasRed = false;
+    const castlesCount = getCastlesCount(islandId);
+    const now = Date.now();
+    
+    for (let j = 0; j < castlesCount; j++) {
+      const castleData = islandsData[islandId][j];
+      if (!castleData.evaluated || !castleData.lastRated) continue;
+      
+      const lastRated = new Date(castleData.lastRated).getTime();
+      const daysDiff = Math.floor((now - lastRated) / (1000 * 60 * 60 * 24)); // الفرق بالأيام
+      
+      if (daysDiff >= redAlertDays) {
+        hasRed = true;
+      } else if (daysDiff >= yellowAlertDays) {
+        hasYellow = true;
+      }
+      
+      // للتحسين: إذا وجدنا كلا النوعين من التنبيهات، نتوقف عن البحث
+      if (hasRed && hasYellow) break;
+    }
+    
+    return { hasYellow, hasRed };
   }
   
   // تحديث تنبيهات الجزر في الصفحة الرئيسية
@@ -1295,33 +1452,6 @@
         addIslandAlertIcon(island, 'yellow');
       }
     }
-  }
-  
-  // التحقق من حالة تنبيهات الجزيرة
-  function checkIslandAlertStatus(islandId) {
-    let hasYellow = false;
-    let hasRed = false;
-    const castlesCount = getCastlesCount(islandId);
-    const now = Date.now();
-    
-    for (let j = 0; j < castlesCount; j++) {
-      const castleData = islandsData[islandId][j];
-      if (!castleData.evaluated || !castleData.lastRated) continue;
-      
-      const lastRated = new Date(castleData.lastRated).getTime();
-      const timeDiff = (now - lastRated) / (1000 * 60); // الفرق بالدقائق
-      
-      if (timeDiff >= redAlertMinutes) {
-        hasRed = true;
-      } else if (timeDiff >= yellowAlertMinutes) {
-        hasYellow = true;
-      }
-      
-      // للتحسين: إذا وجدنا كلا النوعين من التنبيهات، نتوقف عن البحث
-      if (hasRed && hasYellow) break;
-    }
-    
-    return { hasYellow, hasRed };
   }
   
   // إضافة أيقونة تنبيه إلى القلعة
@@ -1365,6 +1495,10 @@
     totalRatedCastlesElement.textContent = totalRatedCastles;
     globalRatingAverageElement.textContent = globalAverage.toFixed(1) + '%';
     
+    // تحديث عرض المراجعات الدورية
+    dailyReviewStreakElement.textContent = dailyReviewStreak;
+    newCastleStreakElement.textContent = newCastleStreak;
+    
     // تغيير لون متوسط التقييم العام
     globalRatingAverageElement.style.color = getRatingColor(globalAverage);
     
@@ -1375,6 +1509,126 @@
     
     // تحديث تنبيهات الجزر
     updateIslandAlerts();
+  }
+  
+  // تهيئة بيانات اللعبة
+  function initializeGameData() {
+    // محاولة تحميل البيانات المحفوظة
+    loadGameData()
+      .then(dataLoaded => {
+        // إذا لم توجد بيانات محفوظة، قم بإنشاء بيانات جديدة
+        if (!dataLoaded) {
+          for (let i = 0; i < numberOfIslands; i++) {
+            const castlesCount = getCastlesCount(i);
+            console.log(`تهيئة الجزيرة ${i+1} بعدد قلاع: ${castlesCount}`);
+            
+            // إنشاء مصفوفة لتخزين بيانات قلاع الجزيرة
+            islandsData[i] = [];
+            for (let j = 0; j < castlesCount; j++) {
+              islandsData[i][j] = {
+                rating: 0,
+                evaluated: false,
+                lastRated: null // وقت آخر تقييم
+              };
+            }
+            
+            // تهيئة متوسط التقييم
+            islandAverageRatings[i] = {
+              average: 0,
+              evaluated: 0
+            };
+          }
+        } 
+        // التأكد من وجود خاصية lastRated وعدد صحيح من القلاع لكل جزيرة
+        else {
+          for (let i = 0; i < numberOfIslands; i++) {
+            const castlesCount = getCastlesCount(i);
+            console.log(`فحص الجزيرة ${i+1} بعدد قلاع: ${castlesCount}, الموجود: ${islandsData[i]?.length || 0}`);
+            
+            // تأكد من وجود مصفوفة لهذه الجزيرة
+            if (!islandsData[i]) {
+              islandsData[i] = [];
+            }
+            
+            // تأكد من وجود العدد الصحيح من القلاع
+            if (islandsData[i].length !== castlesCount) {
+              console.log(`تصحيح عدد القلاع للجزيرة ${i+1}: من ${islandsData[i].length} إلى ${castlesCount}`);
+              // إذا كان هناك قلاع أكثر، نقوم بحذف الزائدة
+              while (islandsData[i].length > castlesCount) {
+                islandsData[i].pop();
+              }
+              // إذا كان هناك قلاع أقل، نضيف الجديدة
+              while (islandsData[i].length < castlesCount) {
+                islandsData[i].push({
+                  rating: 0,
+                  evaluated: false,
+                  lastRated: null
+                });
+              }
+            }
+            
+            // تأكد من وجود خاصية lastRated لكل قلعة
+            for (let j = 0; j < castlesCount; j++) {
+              if (!islandsData[i][j]) {
+                islandsData[i][j] = {
+                  rating: 0,
+                  evaluated: false,
+                  lastRated: null
+                };
+              } else if (islandsData[i][j].lastRated === undefined) {
+                islandsData[i][j].lastRated = null;
+              }
+            }
+            
+            // تأكد من وجود بيانات متوسط التقييم
+            if (!islandAverageRatings[i]) {
+              islandAverageRatings[i] = {
+                average: 0,
+                evaluated: 0
+              };
+            }
+          }
+          
+          // التحقق من التاريخ الحالي وإعادة ضبط المراجعات اليومية إذا لزم الأمر
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          
+          if (lastReviewDate) {
+            const lastDate = new Date(lastReviewDate);
+            lastDate.setHours(0, 0, 0, 0);
+            
+            if (!isSameDay(today, lastDate)) {
+              // إذا لم يكن اليوم الحالي هو نفس يوم آخر مراجعة، إعادة ضبط عداد المراجعات اليومية
+              reviewsCompletedToday = 0;
+              
+              // إذا لم يكن اليوم الحالي هو اليوم التالي مباشرة، إعادة ضبط تتابع المراجعات
+              if (!isConsecutiveDay(lastDate, today)) {
+                dailyReviewStreak = 0;
+              }
+            }
+          }
+        }
+        
+        // تحديث الإحصائيات بعد التهيئة
+        updateGlobalStats();
+      })
+      .catch(error => {
+        console.error("خطأ أثناء تهيئة بيانات اللعبة:", error);
+      });
+  }
+  
+  // تبديل المستخدم (نسخة محسنة)
+  async function switchUser() {
+    try {
+      console.log(`بدء تبديل المستخدم من ${currentUser}`);
+      
+      // انتقال إلى الصفحة الرئيسية
+      window.location.href = "https://alomairmo.github.io/island";
+      return true;
+    } catch (err) {
+      console.error("خطأ في تبديل المستخدم:", err);
+      return false;
+    }
   }
   
   // تحديث إحصائيات الجزيرة الحالية
@@ -1451,6 +1705,41 @@
     }
   }
   
+  // حفظ الإعدادات
+  function saveSettings() {
+    // التحقق من صحة القيم
+    const yellowDays = parseInt(yellowAlertDaysInput.value);
+    const redDays = parseInt(redAlertDaysInput.value);
+    const dailyReviews = parseInt(dailyReviewCountInput.value);
+    const newCastleDays = parseInt(newCastlePeriodInput.value);
+    
+    if (yellowDays > 0 && redDays > 0 && redDays > yellowDays && dailyReviews > 0 && newCastleDays > 0) {
+      yellowAlertDays = yellowDays;
+      redAlertDays = redDays;
+      dailyReviewCount = dailyReviews;
+      newCastlePeriod = newCastleDays;
+      
+      // حفظ الإعدادات
+      saveGameData();
+      
+      // تحديث التنبيهات
+      updateGlobalStats();
+      if (currentIsland !== null) {
+        checkRatingAlerts();
+      }
+      
+      // إغلاق النافذة
+      settingsModal.style.display = 'none';
+      overlay.style.display = 'none';
+      
+      return true;
+    } else {
+      // إظهار رسالة خطأ إذا كانت القيم غير صحيحة
+      alert('يرجى التأكد من القيم: يجب أن تكون مدة المراجعة العاجلة أكبر من مدة المراجعة العادية وكلاهما أكبر من صفر، ويجب أن تكون قيمة المراجعة اليومية وفترة القلاع الجديدة أكبر من صفر');
+      return false;
+    }
+  }
+  
   // تحويل قيمة التقييم إلى لون بتدرج من الأحمر إلى الأخضر
   function getRatingColor(rating) {
     // تحديد اللون بناءً على التقييم
@@ -1471,6 +1760,299 @@
       const green = Math.floor(rating * 2.55);
       return `rgb(${red}, ${green}, 0)`;
     }
+  }
+  
+  // تأكيد التقييم
+  function confirmRating() {
+    if (selectedCastle) {
+      const castleId = parseInt(selectedCastle.dataset.castleId);
+      const rating = parseInt(ratingSlider.value);
+      const borderElement = document.getElementById(`castle-border-${castleId}`);
+      const ratingElement = document.getElementById(`castle-rating-${castleId}`);
+      
+      // تحديث بيانات القلعة
+      const castleData = islandsData[currentIsland][castleId];
+      const oldRating = castleData.rating;
+      const wasEvaluated = castleData.evaluated;
+      
+      castleData.rating = rating;
+      castleData.evaluated = true;
+      castleData.lastRated = Date.now(); // تسجيل وقت التقييم
+      
+      // تحديث عرض تقييم القلعة
+      ratingElement.textContent = rating + '%';
+      
+      // تحديث إطار القلعة
+      updateCastleBorder(borderElement, rating);
+      
+      // إزالة أي علامات تنبيه موجودة
+      const alertIcon = selectedCastle.querySelector('.alert-icon');
+      if (alertIcon) {
+        selectedCastle.removeChild(alertIcon);
+      }
+      
+      // تحديث متوسط تقييم الجزيرة
+      const islandData = islandAverageRatings[currentIsland];
+      
+      if (!wasEvaluated) {
+        // أول تقييم للقلعة - تحديث إحصائيات القلاع الجديدة
+        islandData.evaluated++;
+        islandData.average = ((islandData.average * (islandData.evaluated - 1)) + rating) / islandData.evaluated;
+        updateDailyReviewStats(true); // قلعة جديدة
+      } else {
+        // تعديل تقييم سابق - تحديث إحصائيات المراجعات
+        islandData.average = ((islandData.average * islandData.evaluated) - oldRating + rating) / islandData.evaluated;
+        updateDailyReviewStats(false); // مراجعة قلعة موجودة
+      }
+      
+      // تحديث إحصائيات الجزيرة
+      updateIslandStats();
+      
+      // تحديث إطار الجزيرة الحالية
+      const islandBorderElement = document.getElementById(`island-border-${currentIsland}`);
+      islandBorderElement.style.borderColor = getRatingColor(islandData.average);
+      
+      // حفظ البيانات
+      saveGameData();
+      
+      // تحديث إحصائيات التقييم العامة
+      updateGlobalStats();
+      
+      // إغلاق النافذة المنبثقة
+      ratingModal.style.display = 'none';
+      overlay.style.display = 'none';
+      selectedCastle = null;
+    }
+  }
+  
+  // عند تحميل الصفحة
+  window.addEventListener('load', function() {
+    // تهيئة اللعبة
+    initializeGameData();
+    
+    // إعداد أحداث أزرار واجهة المستخدم
+    
+    // زر العودة للخريطة
+    backButton.addEventListener('click', function() {
+      detailedView.style.display = 'none';
+      currentIsland = null;
+      
+      // إيقاف فاصل التحقق من التنبيهات
+      if (alertCheckInterval) {
+        clearInterval(alertCheckInterval);
+        alertCheckInterval = null;
+      }
+      
+      // تحديث معلومات الجزر في الشاشة الرئيسية
+      updateIslandInfo();
+    });
+    
+    // زر تبديل المستخدم
+    switchUserButton.addEventListener('click', switchUser);
+    
+    // زر تبديل المستخدم في الصفحة الرئيسية
+    const switchUserButtonMain = document.getElementById('switchUserButtonMain');
+    if (switchUserButtonMain) {
+      switchUserButtonMain.addEventListener('click', switchUser);
+    }
+    
+    // زر الإعدادات
+    settingsButton.addEventListener('click', function() {
+      // ضبط القيم الحالية في نموذج الإعدادات
+      yellowAlertDaysInput.value = yellowAlertDays;
+      redAlertDaysInput.value = redAlertDays;
+      dailyReviewCountInput.value = dailyReviewCount;
+      newCastlePeriodInput.value = newCastlePeriod;
+      
+      // إظهار نافذة الإعدادات
+      settingsModal.style.display = 'block';
+      overlay.style.display = 'block';
+    });
+    
+    // إغلاق نافذة الإعدادات
+    closeSettingsButton.addEventListener('click', function() {
+      settingsModal.style.display = 'none';
+      overlay.style.display = 'none';
+    });
+    
+    // حفظ الإعدادات
+    saveSettingsButton.addEventListener('click', saveSettings);
+    
+    // تغيير عرض نسبة التقييم مع تحريك السليدر
+    ratingSlider.addEventListener('input', function() {
+      scoreDisplay.textContent = this.value + '%';
+    });
+    
+    // إلغاء تقييم القلعة
+    cancelButton.addEventListener('click', function() {
+      if (selectedCastle) {
+        const castleId = parseInt(selectedCastle.dataset.castleId);
+        const castleData = islandsData[currentIsland][castleId];
+        
+        // إذا كانت القلعة مُقيمة بالفعل
+        if (castleData.evaluated) {
+          const oldRating = castleData.rating;
+          
+          // تحديث بيانات القلعة
+          castleData.evaluated = false;
+          castleData.rating = 0;
+          castleData.lastRated = null;
+          
+          // تحديث متوسط تقييم الجزيرة
+          const islandData = islandAverageRatings[currentIsland];
+          
+          // التأكد من عدم القسمة على صفر
+          if (islandData.evaluated > 1) {
+            islandData.average = ((islandData.average * islandData.evaluated) - oldRating) / (islandData.evaluated - 1);
+          } else {
+            islandData.average = 0;
+          }
+          
+          islandData.evaluated--;
+          
+          // تحديث عرض القلعة
+          const borderElement = document.getElementById(`castle-border-${castleId}`);
+          const ratingElement = document.getElementById(`castle-rating-${castleId}`);
+          
+          borderElement.style.borderColor = 'transparent';
+          ratingElement.textContent = 'لم يُقيّم';
+          
+          // إزالة أي علامات تنبيه
+          const alertIcon = selectedCastle.querySelector('.alert-icon');
+          if (alertIcon) {
+            selectedCastle.removeChild(alertIcon);
+          }
+          
+          // تحديث إحصائيات الجزيرة
+          updateIslandStats();
+          
+          // تحديث إطار الجزيرة
+          const islandBorderElement = document.getElementById(`island-border-${currentIsland}`);
+          if (islandData.evaluated > 0) {
+            islandBorderElement.style.borderColor = getRatingColor(islandData.average);
+          } else {
+            islandBorderElement.style.borderColor = 'transparent';
+          }
+          
+          // حفظ البيانات
+          saveGameData();
+          
+          // تحديث إحصائيات التقييم العامة
+          updateGlobalStats();
+        }
+        
+        // إغلاق النافذة المنبثقة
+        ratingModal.style.display = 'none';
+        overlay.style.display = 'none';
+        selectedCastle = null;
+      }
+    });
+    
+    // زر إغلاق نافذة التقييم
+    closeRatingButton.addEventListener('click', function() {
+      ratingModal.style.display = 'none';
+      overlay.style.display = 'none';
+      selectedCastle = null;
+    });
+    
+    // تأكيد التقييم
+    submitButton.addEventListener('click', confirmRating);
+    
+    // زر العودة للصفحة الرئيسية
+    const homeButton = document.getElementById('homeButton');
+    if (homeButton) {
+      homeButton.addEventListener('click', function() {
+        // إظهار مؤشر التحميل أو رسالة
+        saveIndicator.style.display = 'flex';
+        saveMessage.textContent = 'جاري حفظ البيانات قبل العودة...';
+        saveIcon.className = 'save-icon';
+        
+        // حفظ البيانات تلقائياً قبل العودة
+        saveGameData().then(() => {
+          console.log('تم حفظ البيانات بنجاح قبل العودة للصفحة الرئيسية');
+          // الانتقال إلى الصفحة الرئيسية بعد تأخير قصير
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1000); // تأخير 1 ثانية لإظهار رسالة النجاح
+        }).catch(err => {
+          console.error('فشل في حفظ البيانات:', err);
+          saveMessage.textContent = 'فشل الحفظ. جاري العودة...';
+          saveIcon.className = 'save-icon save-error';
+          
+          // العودة حتى في حالة فشل الحفظ بعد تأخير قصير
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1500);
+        });
+      });
+    }
+    
+    // زر التحديث في الصفحة الرئيسية
+    const refreshButton = document.getElementById('refreshButton');
+    if (refreshButton) {
+      refreshButton.addEventListener('click', refreshIslands);
+    }
+  });
+  
+  // دالة التحديث (تقوم بإعادة تحميل البيانات وتحديث عرض الجزر)
+  function refreshIslands() {
+    // عرض مؤشر التحميل
+    saveIndicator.style.display = 'flex';
+    saveMessage.textContent = 'جاري التحديث...';
+    saveIcon.className = 'save-icon';
+    
+    // محاولة إعادة تحميل البيانات من السيرفر
+    loadGameData().then(() => {
+      // تحديث معلومات الجزر في الشاشة الرئيسية
+      updateIslandInfo();
+      
+      // تحديث إحصائيات التقييم العامة
+      updateGlobalStats();
+      
+      // إظهار رسالة النجاح
+      saveMessage.textContent = 'تم التحديث بنجاح!';
+      saveIcon.className = 'save-icon save-success';
+      
+      setTimeout(() => {
+        saveIndicator.style.display = 'none';
+      }, 2000);
+    }).catch(err => {
+      console.error('خطأ أثناء التحديث:', err);
+      
+      // إظهار رسالة الخطأ
+      saveMessage.textContent = 'فشل التحديث! جاري استخدام البيانات المحلية';
+      saveIcon.className = 'save-icon save-error';
+      
+      setTimeout(() => {
+        saveIndicator.style.display = 'none';
+      }, 3000);
+    });
+  }
+  
+  // تحديث معلومات الجزيرة في الشاشة الرئيسية
+  function updateIslandInfo() {
+    for (let i = 0; i < numberOfIslands; i++) {
+      const infoElement = document.getElementById(`island-info-${i}`);
+      const borderElement = document.getElementById(`island-border-${i}`);
+      
+      if (!infoElement || !borderElement) continue;
+      
+      const totalCastles = getCastlesCount(i);
+      const evaluated = islandAverageRatings[i] ? islandAverageRatings[i].evaluated : 0;
+      const average = islandAverageRatings[i] ? islandAverageRatings[i].average : 0;
+      
+      infoElement.textContent = `${evaluated}/${totalCastles} (${average.toFixed(1)}%)`;
+      
+      // تحديد لون إطار الجزيرة إذا تم تقييم أي قلعة
+      if (evaluated > 0) {
+        borderElement.style.borderColor = getRatingColor(average);
+      } else {
+        borderElement.style.borderColor = 'transparent';
+      }
+    }
+    
+    // تحديث إحصائيات التقييم العامة أيضًا
+    updateGlobalStats();
   }
   
   // توزيع القلاع في جميع أنحاء الجزيرة بشكل أفضل ومع مراعاة المسافات
@@ -1720,11 +2302,11 @@
         // إضافة علامة تنبيه إذا مضى وقت طويل على التقييم
         const lastRated = new Date(islandsData[currentIsland][i].lastRated).getTime();
         const now = Date.now();
-        const timeDiff = (now - lastRated) / (1000 * 60); // الفرق بالدقائق
+        const daysDiff = Math.floor((now - lastRated) / (1000 * 60 * 60 * 24)); // الفرق بالأيام
         
-        if (timeDiff >= redAlertMinutes) { // مر وقت المراجعة العاجلة
+        if (daysDiff >= redAlertDays) { // مر وقت المراجعة العاجلة
           addAlertIcon(castle, 'red');
-        } else if (timeDiff >= yellowAlertMinutes) { // مر وقت المراجعة العادية
+        } else if (daysDiff >= yellowAlertDays) { // مر وقت المراجعة العادية
           addAlertIcon(castle, 'yellow');
         }
       } else {
@@ -1774,6 +2356,9 @@
     
     // فحص فوري للتنبيهات
     checkRatingAlerts();
+    
+    // تحسين عرض القلاع
+    setTimeout(enhanceCastleDisplay, 100);
   }
   
   // تحديث حالة الإطار بناءً على التقييم
@@ -1782,139 +2367,6 @@
     borderElement.style.borderColor = getRatingColor(rating);
   }
   
-  // تحديث معلومات الجزيرة في الشاشة الرئيسية
-  function updateIslandInfo() {
-    for (let i = 0; i < numberOfIslands; i++) {
-      const infoElement = document.getElementById(`island-info-${i}`);
-      const borderElement = document.getElementById(`island-border-${i}`);
-      
-      const totalCastles = getCastlesCount(i);
-      const evaluated = islandAverageRatings[i].evaluated;
-      const average = islandAverageRatings[i].average;
-      
-      infoElement.textContent = `${evaluated}/${totalCastles} (${average.toFixed(1)}%)`;
-      
-      // تحديد لون إطار الجزيرة إذا تم تقييم أي قلعة
-      if (evaluated > 0) {
-        borderElement.style.borderColor = getRatingColor(average);
-      }
-    }
-    
-    // تحديث إحصائيات التقييم العامة أيضًا
-    updateGlobalStats();
-  }
-  
-  // تبديل المستخدم (نسخة محسنة)
-  async function switchUser() {
-    try {
-      console.log(`بدء تبديل المستخدم من ${currentUser}`);
-      
-      // عرض مؤشر التحميل
-      saveIndicator.style.display = 'flex';
-      saveMessage.textContent = 'جاري تبديل المستخدم...';
-      saveIcon.className = 'save-icon';
-      
-      // 1. حفظ بيانات المستخدم الحالي
-      const gameData = {
-        islandsData: islandsData,
-        islandAverageRatings: islandAverageRatings,
-        settings: {
-          yellowAlertMinutes: yellowAlertMinutes,
-          redAlertMinutes: redAlertMinutes
-        },
-        lastUpdated: new Date().toISOString()
-      };
-      
-      localStorage.setItem(`islandsCastlesGame_${currentUser}`, JSON.stringify(gameData));
-      console.log("تم حفظ بيانات المستخدم الحالي محليًا");
-      
-      // محاولة الحفظ في Firebase بشكل غير متزامن
-      firebase.database().ref(`users/${currentUser}`).set(gameData)
-        .then(() => console.log("تم حفظ البيانات في Firebase بنجاح"))
-        .catch(err => console.error("فشل الحفظ في Firebase:", err));
-      
-      // 2. تبديل المستخدم
-      const newUser = currentUser === 'mohammed' ? 'saad' : 'mohammed';
-      console.log(`تبديل المستخدم إلى ${newUser}`);
-      
-      // تحديث المستخدم الحالي
-      currentUser = newUser;
-      localStorage.setItem('selectedUser', newUser);
-      
-      // 3. تنظيف العناصر المرئية قبل تحميل البيانات الجديدة
-      cleanupUIElements();
-      
-      // 4. تحميل بيانات المستخدم الجديد
-      await loadGameData();
-      
-      // 5. تهيئة وعرض البيانات
-      initializeGameData();
-      updateIslandInfo();
-      updateGlobalStats();
-      
-      // 6. تحديث اسم المستخدم في الواجهة
-      document.getElementById('current-user').textContent = currentUser === 'mohammed' ? 'محمد' : 'سعد';
-      
-      // إظهار رسالة النجاح
-      saveMessage.textContent = 'تم تبديل المستخدم بنجاح!';
-      saveIcon.className = 'save-icon save-success';
-      
-      setTimeout(() => {
-        saveIndicator.style.display = 'none';
-      }, 2000);
-      
-      return true;
-    } catch (err) {
-      console.error("خطأ في تبديل المستخدم:", err);
-      
-      // إظهار رسالة الخطأ
-      saveMessage.textContent = 'حدث خطأ أثناء تبديل المستخدم!';
-      saveIcon.className = 'save-icon save-error';
-      
-      setTimeout(() => {
-        saveIndicator.style.display = 'none';
-      }, 3000);
-      
-      return false;
-    }
-  }
-  
-  // دالة تنظيف عناصر واجهة المستخدم
-  function cleanupUIElements() {
-    console.log("تنظيف عناصر واجهة المستخدم...");
-    
-    // 1. إزالة جميع علامات التنبيه من الجزر
-    document.querySelectorAll('.island .alert-icon').forEach(alert => {
-      alert.remove();
-    });
-    
-    // 2. إعادة ضبط ألوان إطارات الجزر
-    document.querySelectorAll('.island-border').forEach(border => {
-      border.style.borderColor = 'transparent';
-    });
-    
-    // 3. إعادة ضبط معلومات تقييم الجزر
-    for (let i = 0; i < numberOfIslands; i++) {
-      const infoElement = document.getElementById(`island-info-${i}`);
-      if (infoElement) {
-        const totalCastles = getCastlesCount(i);
-        infoElement.textContent = `0/${totalCastles} (0.0%)`;
-      }
-    }
-    
-    // 4. إعادة ضبط الإحصائيات العامة
-    if (totalRatedCastlesElement) totalRatedCastlesElement.textContent = "0";
-    if (globalRatingAverageElement) globalRatingAverageElement.textContent = "0%";
-    if (yellowAlertCountElement) yellowAlertCountElement.textContent = "0";
-    if (redAlertCountElement) redAlertCountElement.textContent = "0";
-    
-    // 5. إعادة ضبط المصفوفات العالمية للبيانات
-    islandsData = [];
-    islandAverageRatings = [];
-    
-    console.log("تم تنظيف عناصر واجهة المستخدم بنجاح");
-  }
-    
   // تحسين عرض القلاع
   function enhanceCastleDisplay() {
     const castleElements = document.querySelectorAll('.castle');
@@ -2072,231 +2524,24 @@
     
     islandsContainer.appendChild(island);
   }
-  
-  // تهيئة بيانات اللعبة
-  initializeGameData();
-  
-  // تحديث إحصائيات التقييم العامة
-  updateGlobalStats();
-  
-  // تغيير عرض نسبة التقييم مع تحريك السليدر
-  ratingSlider.addEventListener('input', function() {
-    scoreDisplay.textContent = this.value + '%';
-  });
-  
-  // إلغاء تقييم القلعة
-  cancelButton.addEventListener('click', function() {
-    if (selectedCastle) {
-      const castleId = parseInt(selectedCastle.dataset.castleId);
-      const castleData = islandsData[currentIsland][castleId];
-      
-      // إذا كانت القلعة مُقيمة بالفعل
-      if (castleData.evaluated) {
-        const oldRating = castleData.rating;
-        
-        // تحديث بيانات القلعة
-        castleData.evaluated = false;
-        castleData.rating = 0;
-        castleData.lastRated = null;
-        
-        // تحديث متوسط تقييم الجزيرة
-        const islandData = islandAverageRatings[currentIsland];
-        
-        // التأكد من عدم القسمة على صفر
-        if (islandData.evaluated > 1) {
-          islandData.average = ((islandData.average * islandData.evaluated) - oldRating) / (islandData.evaluated - 1);
-        } else {
-          islandData.average = 0;
-        }
-        
-        islandData.evaluated--;
-        
-        // تحديث عرض القلعة
-        const borderElement = document.getElementById(`castle-border-${castleId}`);
-        const ratingElement = document.getElementById(`castle-rating-${castleId}`);
-        
-        borderElement.style.borderColor = 'transparent';
-        ratingElement.textContent = 'لم يُقيّم';
-        
-        // إزالة أي علامات تنبيه
-        const alertIcon = selectedCastle.querySelector('.alert-icon');
-        if (alertIcon) {
-          selectedCastle.removeChild(alertIcon);
-        }
-        
-        // تحديث إحصائيات الجزيرة
-        updateIslandStats();
-        
-        // تحديث إطار الجزيرة
-        const islandBorderElement = document.getElementById(`island-border-${currentIsland}`);
-        if (islandData.evaluated > 0) {
-          islandBorderElement.style.borderColor = getRatingColor(islandData.average);
-        } else {
-          islandBorderElement.style.borderColor = 'transparent';
-        }
-        
-        // حفظ البيانات
-        saveGameData();
-        
-        // تحديث إحصائيات التقييم العامة
-        updateGlobalStats();
-      }
-      
-      // إغلاق النافذة المنبثقة
-      ratingModal.style.display = 'none';
-      overlay.style.display = 'none';
-      selectedCastle = null;
-    }
-  });
-  
-  // زر إغلاق نافذة التقييم
-  closeRatingButton.addEventListener('click', function() {
-    ratingModal.style.display = 'none';
-    overlay.style.display = 'none';
-    selectedCastle = null;
-  });
 
-  // تأكيد التقييم
-  submitButton.addEventListener('click', function() {
-    if (selectedCastle) {
-      const castleId = parseInt(selectedCastle.dataset.castleId);
-      const rating = parseInt(ratingSlider.value);
-      const borderElement = document.getElementById(`castle-border-${castleId}`);
-      const ratingElement = document.getElementById(`castle-rating-${castleId}`);
-      
-      // تحديث بيانات القلعة
-      const castleData = islandsData[currentIsland][castleId];
-      const oldRating = castleData.rating;
-      const wasEvaluated = castleData.evaluated;
-      
-      castleData.rating = rating;
-      castleData.evaluated = true;
-      castleData.lastRated = Date.now(); // تسجيل وقت التقييم
-      
-      // تحديث عرض تقييم القلعة
-      ratingElement.textContent = rating + '%';
-      
-      // تحديث إطار القلعة
-      updateCastleBorder(borderElement, rating);
-      
-      // إزالة أي علامات تنبيه موجودة
-      const alertIcon = selectedCastle.querySelector('.alert-icon');
-      if (alertIcon) {
-        selectedCastle.removeChild(alertIcon);
-      }
-      
-      // تحديث متوسط تقييم الجزيرة
-      const islandData = islandAverageRatings[currentIsland];
-      
-      if (!wasEvaluated) {
-        // أول تقييم للقلعة
-        islandData.evaluated++;
-        islandData.average = ((islandData.average * (islandData.evaluated - 1)) + rating) / islandData.evaluated;
-      } else {
-        // تعديل تقييم سابق
-        islandData.average = ((islandData.average * islandData.evaluated) - oldRating + rating) / islandData.evaluated;
-      }
-      
-      // تحديث إحصائيات الجزيرة
-      updateIslandStats();
-      
-      // تحديث إطار الجزيرة الحالية
-      const islandBorderElement = document.getElementById(`island-border-${currentIsland}`);
-      islandBorderElement.style.borderColor = getRatingColor(islandData.average);
-      
-      // حفظ البيانات
-      saveGameData();
-      
-      // تحديث إحصائيات التقييم العامة
-      updateGlobalStats();
-      
-      // إغلاق النافذة المنبثقة
-      ratingModal.style.display = 'none';
-      overlay.style.display = 'none';
-      selectedCastle = null;
-    }
-  });
-  
-  // زر العودة
-  backButton.addEventListener('click', function() {
-    detailedView.style.display = 'none';
-    currentIsland = null;
-    
-    // إيقاف فاصل التحقق من التنبيهات
-    if (alertCheckInterval) {
-      clearInterval(alertCheckInterval);
-      alertCheckInterval = null;
-    }
-    
-    // تحديث معلومات الجزر في الشاشة الرئيسية
-    updateIslandInfo();
-  });
-  
-  // زر تبديل المستخدم
-  switchUserButton.addEventListener('click', function() {
-    switchUser();
-  });
-  
-  // إعدادات التنبيهات
-  settingsButton.addEventListener('click', function() {
-    // ضبط القيم الحالية في نموذج الإعدادات
-    yellowAlertMinutesInput.value = yellowAlertMinutes;
-    redAlertMinutesInput.value = redAlertMinutes;
-    
-    // إظهار نافذة الإعدادات
-    settingsModal.style.display = 'block';
-    overlay.style.display = 'block';
-  });
-  
-  // إغلاق نافذة الإعدادات
-  closeSettingsButton.addEventListener('click', function() {
-    settingsModal.style.display = 'none';
-    overlay.style.display = 'none';
-  });
-  
-  // حفظ الإعدادات
-  saveSettingsButton.addEventListener('click', function() {
-    // التحقق من صحة القيم
-    const yellowMinutes = parseInt(yellowAlertMinutesInput.value);
-    const redMinutes = parseInt(redAlertMinutesInput.value);
-    
-    if (yellowMinutes > 0 && redMinutes > 0 && redMinutes > yellowMinutes) {
-      yellowAlertMinutes = yellowMinutes;
-      redAlertMinutes = redMinutes;
-      
-      // حفظ الإعدادات
-      saveGameData();
-      
-      // تحديث التنبيهات
-      updateGlobalStats();
-      if (currentIsland !== null) {
-        checkRatingAlerts();
-      }
-      
-      // إغلاق النافذة
-      settingsModal.style.display = 'none';
-      overlay.style.display = 'none';
-    } else {
-      // إظهار رسالة خطأ إذا كانت القيم غير صحيحة
-      alert('يجب أن تكون مدة المراجعة العاجلة أكبر من مدة المراجعة العادية وكلاهما أكبر من صفر');
-    }
-  });
-  
   // استدعاء دالة التهيئة عند تحميل الصفحة
-  window.addEventListener('load', function() {
-    // استدعاء الدالة الرئيسية للتهيئة
-    initializeApp();
+  document.addEventListener('DOMContentLoaded', function() {
+    // تهيئة بيانات اللعبة
+    initializeGameData();
     
-    // زر التحديث في الصفحة الرئيسية
-    const refreshButton = document.getElementById('refreshButton');
-    if (refreshButton) {
-      refreshButton.addEventListener('click', refreshIslands);
-    }
+    // تحديث إحصائيات التقييم العامة
+    updateGlobalStats();
     
-    // زر تبديل المستخدم في الصفحة الرئيسية
+    // إعداد أزرار الصفحة الرئيسية
     const switchUserButtonMain = document.getElementById('switchUserButtonMain');
     if (switchUserButtonMain) {
       switchUserButtonMain.addEventListener('click', switchUser);
+    }
+    
+    const refreshButton = document.getElementById('refreshButton');
+    if (refreshButton) {
+      refreshButton.addEventListener('click', refreshIslands);
     }
     
     // يتم عرض التفاصيل الإضافية في العرض المفصل فقط
@@ -2305,82 +2550,7 @@
         setTimeout(enhanceCastleDisplay, 100);
       }
     });
-  });
-  // إضافة سلوك زر العودة للصفحة الرئيسية
-  const homeButton = document.getElementById('homeButton');
-  if (homeButton) {
-    homeButton.addEventListener('click', function() {
-      // إظهار مؤشر التحميل أو رسالة
-      saveIndicator.style.display = 'flex';
-      saveMessage.textContent = 'جاري حفظ البيانات قبل العودة...';
-      saveIcon.className = 'save-icon';
-      
-      // حفظ البيانات تلقائياً قبل العودة
-      saveGameData().then(() => {
-        console.log('تم حفظ البيانات بنجاح قبل العودة للصفحة الرئيسية');
-        // الانتقال إلى الصفحة الرئيسية بعد تأخير قصير
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 1000); // تأخير 1 ثانية لإظهار رسالة النجاح
-      }).catch(err => {
-        console.error('فشل في حفظ البيانات:', err);
-        saveMessage.textContent = 'فشل الحفظ. جاري العودة...';
-        saveIcon.className = 'save-icon save-error';
-        
-        // العودة حتى في حالة فشل الحفظ بعد تأخير قصير
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 1500);
-      });
-    });
-  }
-  // دالة التحديث (تقوم بإعادة تحميل البيانات وتحديث عرض الجزر)
-  function refreshIslands() {
-    // عرض مؤشر التحميل
-    saveIndicator.style.display = 'flex';
-    saveMessage.textContent = 'جاري التحديث...';
-    saveIcon.className = 'save-icon';
     
-    // محاولة إعادة تحميل البيانات من السيرفر
-    loadGameData().then(() => {
-      // تحديث معلومات الجزر في الشاشة الرئيسية
-      updateIslandInfo();
-      
-      // تحديث إحصائيات التقييم العامة
-      updateGlobalStats();
-      
-      // إظهار رسالة النجاح
-      saveMessage.textContent = 'تم التحديث بنجاح!';
-      saveIcon.className = 'save-icon save-success';
-      
-      setTimeout(() => {
-        saveIndicator.style.display = 'none';
-      }, 2000);
-    }).catch(err => {
-      console.error('خطأ أثناء التحديث:', err);
-      
-      // إظهار رسالة الخطأ
-      saveMessage.textContent = 'فشل التحديث! جاري استخدام البيانات المحلية';
-      saveIcon.className = 'save-icon save-error';
-      
-      setTimeout(() => {
-        saveIndicator.style.display = 'none';
-      }, 3000);
-    });
-  }
-  
-  // إضافة مستمعي الأحداث للأزرار الجديدة عند تحميل الصفحة
-  window.addEventListener('load', function() {
-    // زر التحديث في الصفحة الرئيسية
-    const refreshButton = document.getElementById('refreshButton');
-    if (refreshButton) {
-      refreshButton.addEventListener('click', refreshIslands);
-    }
-    
-    // زر تبديل المستخدم في الصفحة الرئيسية
-    const switchUserButtonMain = document.getElementById('switchUserButtonMain');
-    if (switchUserButtonMain) {
-      switchUserButtonMain.addEventListener('click', switchUser);
-    }
+    console.log("تم تهيئة اللعبة بنجاح!");
   });
 </script>
